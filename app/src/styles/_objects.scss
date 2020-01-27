@@ -29,6 +29,7 @@
 	@include text-align(center);
 	@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
 
+	box-shadow: 0px -2px 20px 0px rgba(255,255,255,.5);
 	width: $half;
 	z-index: map-get($z-indexs, above);
 	position: fixed;
@@ -45,11 +46,87 @@
 	
 	&__icon {
 		@include text-align(left);
+		cursor: pointer;
 		font-size: 1.2em;
 
 		&--alt {
 			@include text-align(right);
 		}
 	}
+}
+
+.side-container {
+	width: $side-container-width;
+	max-width: $side-container-width;
+	background: $color-global-dark;
+	height: 100%;
+	position: fixed;
+	top: $zero;
+	z-index: map-get($z-indexs, above);
+	transition: all 0.2s;
+
+	&--left {
+		@include text-align(center);
+		left: $zero;
+		box-shadow: 2px 2px 5px 0px rgba(255,255,255,.5);
+	}
+
+	&--right {
+		@include text-align(center);
+		right: $zero;
+		box-shadow: -2px -2px 5px 0px rgba(255,255,255,.5);
+	}
+
+	.side-bar {
+		position: relative;
+
+		&-toggle {
+			position: absolute;
+			top: $inner-gutter;
+			color: $color-global-positive;
+			font-size: 1.5em;
+			cursor: pointer;
+			z-index: map-get($z-indexs, above-all);
+
+			&--left {
+				right: $inner-gutter;
+			}
+	
+			&--right {
+				left: $inner-gutter;
+			}
+		}
+		&__content {
+			width: $full;
+			position: relative;
+		}
+
+		&__item {
+			&:first-of-type {
+				@include margin($inner-gutter--tripple, $inner-gutter, $zero, $zero);
+			}
+
+			&:hover {
+				background: $color-global-light;
+				border-color: $color-global-light;
+				color: $color-global-dark;
+			}
+
+			@include center(horizontal, relative);
+			@include border-radius($inner-gutter--half);
+			@include margin($inner-gutter--half, $inner-gutter, $zero, $zero);
+			padding: $inner-gutter--quarter;
+			display: block;
+			color: $color-global-positive;
+			font-size: 1.2em;
+			border: 2px solid white;
+			cursor: pointer;
+			transition: all 0.2s;
+		}
+	}
+}
+
+.rotate--180 {
+	transform: rotate(180deg);
 }
 

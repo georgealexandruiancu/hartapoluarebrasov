@@ -31,8 +31,12 @@ $z-indexs : (
 $inner-gutter:							20px;
 $inner-gutter--half:					$inner-gutter / 2;
 $inner-gutter--double:					$inner-gutter * 2;
+$inner-gutter--tripple:					$inner-gutter * 3;
 $inner-gutter--quarter:					$inner-gutter / 4;
 
 
 $marker-size-width:				18px;
 $marker-size-height:			$marker-size-width;
+
+$side-container-width:			200px;
+$bottom-container-height:		$side-container-width;

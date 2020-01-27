@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
-
+import {mapOptions} from './middleware/_mapStyles.js';
 import Marker from './middleware/Marker';
 
 class MapContainer extends Component {
@@ -20,7 +20,9 @@ class MapContainer extends Component {
 					{lat: 45.6523093, lng: 25.6122746},
 					{lat: 45.6423093, lng: 25.6145746},
 					{lat: 45.6453093, lng: 25.6132746},
-					{lat: 45.6473093, lng: 25.6133746}
+					{lat: 45.6473093, lng: 25.6133746},
+					{lat: 45.6483093, lng: 25.6333746},
+					{lat: 45.6483093, lng: 25.5933746},
 				],
 			}
 		}
@@ -46,11 +48,13 @@ class MapContainer extends Component {
 				defaultZoom={this.props.zoom}
 				heatmapLibrary={true}
 				heatmap={heatMapData}
+				options={mapOptions}
 			>
 				{
 					heatMapData.positions.map((item, index) => {
 						return (
 							<Marker
+								key={index}
 								lat={item.lat}
 								lng={item.lng}
 								name="My Marker"

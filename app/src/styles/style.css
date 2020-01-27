@@ -594,6 +594,8 @@
   -moz-border-radius-topright: 0;
   -moz-border-radius-bottomright: 20px;
   -moz-border-radius-bottomleft: 20px;
+  -webkit-box-shadow: 0px -2px 20px 0px rgba(255, 255, 255, 0.5);
+          box-shadow: 0px -2px 20px 0px rgba(255, 255, 255, 0.5);
   width: 50%;
   z-index: 99;
   position: fixed;
@@ -611,11 +613,102 @@
 
 .title-container__icon {
   text-align: left;
+  cursor: pointer;
   font-size: 1.2em;
 }
 
 .title-container__icon--alt {
   text-align: right;
+}
+
+.side-container {
+  width: 200px;
+  max-width: 200px;
+  background: #071637;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.side-container--left {
+  text-align: center;
+  left: 0;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(255, 255, 255, 0.5);
+          box-shadow: 2px 2px 5px 0px rgba(255, 255, 255, 0.5);
+}
+
+.side-container--right {
+  text-align: center;
+  right: 0;
+  -webkit-box-shadow: -2px -2px 5px 0px rgba(255, 255, 255, 0.5);
+          box-shadow: -2px -2px 5px 0px rgba(255, 255, 255, 0.5);
+}
+
+.side-container .side-bar {
+  position: relative;
+}
+
+.side-container .side-bar-toggle {
+  position: absolute;
+  top: 20px;
+  color: #eee;
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.side-container .side-bar-toggle--left {
+  right: 20px;
+}
+
+.side-container .side-bar-toggle--right {
+  left: 20px;
+}
+
+.side-container .side-bar__content {
+  width: 100%;
+  position: relative;
+}
+
+.side-container .side-bar__item {
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translate(-50%);
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
+  margin-bottom: 0;
+  margin-left: 0;
+  padding: 5px;
+  display: block;
+  color: #eee;
+  font-size: 1.2em;
+  border: 2px solid white;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.side-container .side-bar__item:first-of-type {
+  margin-top: 60px;
+  margin-right: 20px;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+
+.side-container .side-bar__item:hover {
+  background: #B5CCF7;
+  border-color: #B5CCF7;
+  color: #071637;
+}
+
+.rotate--180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
 }
 
 .u-pos-absolute {
