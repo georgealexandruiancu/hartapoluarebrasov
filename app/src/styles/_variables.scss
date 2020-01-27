@@ -14,3 +14,25 @@ $map-grid-props: (
 		'-lg': $grid__bp-lg,
 		'-xl': $grid__bp-xl
 );
+
+$full: 100%;
+$half: 50%;
+$quarter: 25%;
+$zero: 0;
+$one: 1;
+
+$z-indexs : (
+	'above-all':			9999,
+	'above':				99,
+	'top':					1,
+	'ground':				0
+);
+
+$inner-gutter:							20px;
+$inner-gutter--half:					$inner-gutter / 2;
+$inner-gutter--double:					$inner-gutter * 2;
+$inner-gutter--quarter:					$inner-gutter / 4;
+
+
+$marker-size-width:				18px;
+$marker-size-height:			$marker-size-width;

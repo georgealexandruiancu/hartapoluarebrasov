@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import firebase from './config/Firebase';
+import MapContainer from './components/MapContainer';
+import Header from './components/Header';
 
 import './styles/style.css';
 
@@ -7,7 +8,16 @@ class App extends Component {
 
 	render() {
 		return (
-			<>TEST</>
+			<div className="root">
+				<div className="container  title-container">
+					<Header />
+				</div>
+				<div className="map-container  u-pos-fixed">
+					<MapContainer />
+				</div>
+				
+
+			</div>
 		);
 	}
 }

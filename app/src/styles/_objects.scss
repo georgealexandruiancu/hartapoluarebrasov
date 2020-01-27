@@ -1,2 +1,55 @@
 //======================== OBJECTS HERE ========================
 //================================================================
+
+.map-container {
+	width: $full;
+	height: $full;
+	top: $zero;
+	left: $zero;
+	z-index: map-get($z-indexs, ground);
+}
+
+.marker {
+	@include middle;
+
+	width: $marker-size-width;
+	height: $marker-size-height;
+	background-color: #000;
+	border: 2px solid #fff;
+	border-radius: 100%;
+	user-select: none;
+
+	&:hover {
+		z-index: $one;
+	}
+}
+
+.title-container {
+	@include centerer;
+	@include text-align(center);
+	@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
+
+	width: $half;
+	z-index: map-get($z-indexs, above);
+	position: fixed;
+	top: $zero;
+	background: $color-global-dark;
+	padding: $inner-gutter;
+	color: $color-global-positive;
+
+	&__text {
+		font-size: 1.2em;
+		vertical-align: middle;
+		font-weight: 600;
+	}
+	
+	&__icon {
+		@include text-align(left);
+		font-size: 1.2em;
+
+		&--alt {
+			@include text-align(right);
+		}
+	}
+}
+
