@@ -3,6 +3,7 @@ import MapContainer from './components/MapContainer';
 import Header from './components/Header';
 import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
+import BottomCarousel from './components/BottomCarousel';
 
 
 import './styles/style.css';
@@ -24,8 +25,9 @@ class App extends Component {
 				<div className="side-container  side-container--right">
 					<SideRight />
 				</div>
-				
-
+				<div className="container--fluid  bottom-carousel">
+					<BottomCarousel />
+				</div>
 			</div>
 		);
 	}

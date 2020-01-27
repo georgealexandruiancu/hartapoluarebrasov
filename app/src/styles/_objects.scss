@@ -130,3 +130,155 @@
 	transform: rotate(180deg);
 }
 
+.bottom-carousel {
+	bottom: 0;
+	height: $side-container-width;
+	width: $full;
+	background: $color-global-dark;
+	z-index: map-get($z-indexs, above-all);
+	position: fixed;
+}
+
+
+// SASS variable for media query breakpoint
+$breakpoint-desktop: 991px;
+
+// Resetting default styles
+ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+// Fix for jumping arrows
+.carousel-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 210px;
+}
+
+.carousel {
+	@include margin($inner-gutter, $zero, $zero, $zero);
+	@include center(horizontal, relative);
+	position: relative;
+}
+
+// Carousel slides
+.carousel__slide {
+	margin-right: auto;
+	margin-left: auto;
+	display: none;
+	max-width: 100%;
+	list-style-type: none;
+	text-align: center;
+	min-height: 125px;
+
+	@media (max-width: 991px) {
+		padding-right: 60px;
+		padding-left: 60px;
+	}
+
+	&--active {
+		display: block;
+	}
+
+	&--item {
+		@include border-radius($inner-gutter--half);
+		min-width: 300px;
+		min-height: 100%;
+		width: 300px;
+		height: 100%;
+		background: red;
+		display: block;
+	}
+}
+
+// Content of slides
+.carousel-slide__content {
+	margin-bottom: 19px;
+	font-family: 'Open Sans', 'Trebuchet MS', sans-serif;
+	font-size: 16px;
+
+	@media (max-width: $breakpoint-desktop - 1px) {
+		font-size: 18px;
+	}
+}
+
+.carousel-slide__author,
+.carousel-slide__source {
+	font-family: 'Roboto', arial, sans-serif;
+	font-size: 14px;
+
+	@media (min-width: $breakpoint-desktop) {
+		font-size: 16px;
+	}
+}
+
+.carousel-slide__source {
+	font-style: italic;
+	color: $color-global-light;
+}
+
+// Carousel arrows
+.carousel__arrow {
+	position: absolute;
+	top: 50%;
+	display: block;
+	color: $color-global-light;
+	cursor: pointer;
+	opacity: .75;
+	transform: translateY(-50%);
+	transition: opacity .15s cubic-bezier(.4, 0, 1, 1);
+
+	&:focus {
+		outline: 0;
+	}
+
+	&:hover {
+		opacity: .5;
+	}
+
+	&--left {
+		left: 32px;
+	}
+
+	&--right {
+		right: 32px;
+	}
+}
+
+// Carousel indicators
+.carousel__indicators {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-top: 20px;
+
+	li {
+		&:nth-of-type(n + 2) {
+		margin-left: 9px;
+		}
+	}
+}
+
+.carousel__indicator {
+	display: block;
+	width: 24px;
+	height: 3px;
+	background-color: $color-global-light;
+	cursor: pointer;
+	opacity: .15;
+	transition: opacity .15s cubic-bezier(.4, 0, 1, 1);
+
+	&:hover {
+		opacity: .5;
+	}
+
+	&--active {
+		&,
+		&:hover {
+			opacity: .75;
+		}
+	}
+}
