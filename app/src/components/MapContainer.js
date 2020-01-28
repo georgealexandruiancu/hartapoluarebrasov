@@ -17,15 +17,22 @@ class MapContainer extends Component {
 		this.state = {
 			heatMapTest: {
 				positions: [
-					{lat: 45.6523093, lng: 25.6122746},
-					{lat: 45.6423093, lng: 25.6145746},
-					{lat: 45.6453093, lng: 25.6132746},
-					{lat: 45.6473093, lng: 25.6133746},
-					{lat: 45.6483093, lng: 25.6333746},
-					{lat: 45.6483093, lng: 25.5933746},
+					{lat: 45.644883, lng: 25.595225, weight: 32},
+					{lat: 45.644868, lng: 25.596046, weight: 22},
+					{lat: 45.644968, lng: 25.596146, weight: 3},
+					{lat: 45.645074, lng: 25.597183, weight: 123},
+					{lat: 45.645304, lng: 25.597303, weight: 1323},
+					{lat: 45.645307, lng: 25.598187, weight: 322},
+					{lat: 45.645468, lng: 25.598911, weight: 302},
+					{lat: 45.644906, lng: 25.598728, weight: 33},
+					{lat: 45.644906, lng: 25.598728, weight: 55},
+					{lat: 45.644906, lng: 25.598728, weight: 34},
+					{lat: 45.644906, lng: 25.598728, weight: 566},
+
 				],
 			}
 		}
+
 	}
 
 	render() {
@@ -33,8 +40,8 @@ class MapContainer extends Component {
 		const heatMapData = {
 			positions: this.state.heatMapTest.positions,
 			options: {
-				radius: 30,
-				opacity: 0.6
+				radius: 50,
+				opacity: 0.6,
 			}
 		}
 
@@ -59,6 +66,7 @@ class MapContainer extends Component {
 								lng={item.lng}
 								name="My Marker"
 								color="blue"
+								visible={false}
 							/>
 						)
 					})

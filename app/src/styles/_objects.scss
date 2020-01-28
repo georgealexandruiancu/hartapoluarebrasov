@@ -115,6 +115,7 @@
 			@include center(horizontal, relative);
 			@include border-radius($inner-gutter--half);
 			@include margin($inner-gutter--half, $inner-gutter, $zero, $zero);
+
 			padding: $inner-gutter--quarter;
 			display: block;
 			color: $color-global-positive;
@@ -139,6 +140,27 @@
 	position: fixed;
 }
 
+.btn {
+	&__primary {
+		@include padding($inner-gutter--half, $inner-gutter--half, $inner-gutter--half, $inner-gutter--half);
+		@include border-radius($inner-gutter--quarter);
+
+		color: $color-global-dark;
+		font-size: 1em;
+		font-weight: 600;
+		letter-spacing: 1.2px;
+		border: 2px solid $color-global-dark;
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.2s;
+
+		&:hover {
+			background: $color-global-light;
+			border-color: $color-global-light;
+			color: $color-global-dark;
+		}
+	}
+}
 
 // SASS variable for media query breakpoint
 $breakpoint-desktop: 991px;
@@ -193,6 +215,7 @@ ul {
 	&--item {
 		@include border-radius($inner-gutter--half);
 		@include center(horizontal, relative);
+
 		min-width: 300px;
 		min-height: 100%;
 		width: 70%;
@@ -222,6 +245,16 @@ ul {
 			font-size: 2em;
 			font-weight: 700;
 			font-style: italic;
+		}
+
+		&-date {
+			position: absolute;
+			bottom: $inner-gutter--half;
+			left: $inner-gutter--half;
+
+			.fa {
+				margin-right: $inner-gutter--half;
+			}
 		}
 	}
 }
@@ -312,6 +345,76 @@ ul {
 		&,
 		&:hover {
 			opacity: .75;
+		}
+	}
+}
+
+.modal-overlay {
+	// background: opacity($color-global-dark, 30%);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: map-get($z-indexs, max-above);
+	background: rgba($color-global-negative, .8);
+	display: none;
+
+	&--open {
+		display: initial;
+	}
+}
+
+.modal {
+	@include center(horizontal, absolute);
+	@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
+	@include padding($zero, $zero, $inner-gutter--double, $zero);
+
+	box-shadow: 0px -2px 20px 0px rgba(255,255,255,.5);
+	top: $inner-gutter;
+	width: 90%;
+	max-width: 768px;
+	background: white;
+
+	&__title {
+		@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
+		@include text-align(center);
+		@include padding($inner-gutter, $inner-gutter, $inner-gutter, $inner-gutter);
+
+		background: $color-global-dark;
+		color: $color-global-light;		
+		font-size: 1.2em;
+	}
+
+	&__close--btn {
+		position: absolute;
+		right: $inner-gutter--half;
+		top: $inner-gutter--half;
+		cursor: pointer;
+
+		&:hover {
+			color: $color-global-positive;
+		}
+	}
+
+	&__form {
+		display: block;
+		@include margin($inner-gutter, $zero, $zero, $zero);
+		@include text-align(center);
+
+		&--input {
+			@include margin($inner-gutter--half, $zero, $zero, $zero);
+			@include center(horizontal, relative);
+
+			input {
+				@include padding($inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--half);
+				@include border-radius($inner-gutter--quarter);
+
+				border: 2px solid $color-global-dark;
+				width: 35%;
+				min-width: 250px;
+				outline-style:none;
+			}
 		}
 	}
 }

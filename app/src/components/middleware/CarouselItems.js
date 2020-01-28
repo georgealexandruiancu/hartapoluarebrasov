@@ -60,12 +60,17 @@ class CarouselSlide extends Component {
 				<div className="carousel__slide--item">
 					<div className="carousel__slide--item-title">
 						<i class="fas fa-chart-pie"></i>
-						REGIUNEA SELECTATA AICI
+						Zona: {this.props.slide.zone}
 					</div>
 
 					<div className="carousel__slide--item-value">
 						<i class="fas fa-chart-pie"></i>
-						33.333 / ppm
+						{this.props.slide.data.name} - {this.props.slide.data.value} / {this.props.slide.data.currency}
+					</div>
+
+					<div className="carousel__slide--item-date">
+						<i class="fa fa-calendar"></i>
+						{this.props.slide.data.date} - last update
 					</div>
 				</div>
 			</li>

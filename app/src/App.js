@@ -4,6 +4,8 @@ import Header from './components/Header';
 import SideLeft from './components/SideLeft';
 import SideRight from './components/SideRight';
 import BottomCarousel from './components/BottomCarousel';
+import ModalAdmin from './components/ModalAdmin';
+
 
 
 import './styles/style.css';
@@ -12,7 +14,8 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="root">
+			<div className="root" style={{position: 'relative'}}>
+				<ModalAdmin />
 				<div className="container  title-container">
 					<Header />
 				</div>
