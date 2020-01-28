@@ -1,15 +1,23 @@
-export const toggleModalAdmin = (element) => {
-
+export const openModalAdmin = () => {
 	var modalAdmin = document.getElementsByClassName("js-open-modal-admin")[0];
 
-	if(element) {
-		modalAdmin.classList.add("modal-overlay--open");
-	}
-	else {
-		modalAdmin.classList.remove("modal-overlay--open");
-	}
+	modalAdmin.classList.add("modal-overlay--open");
 }
 
-export const toggleBottom = (element) => {
+export const closeModalAdmin = () => {
+	var modalAdmin = document.getElementsByClassName("js-open-modal-admin")[0];
 
+	modalAdmin.classList.remove("modal-overlay--open");
+}
+
+export const openModalUser = () => {
+	var modalUser = document.getElementsByClassName("js-open-modal-user")[0];
+
+	modalUser.classList.add("modal-overlay--open");
+}
+
+export const closeModalUser = () => {
+	var modalUser = document.getElementsByClassName("js-open-modal-user")[0];
+
+	modalUser.classList.remove("modal-overlay--open");
 }

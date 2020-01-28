@@ -26,12 +26,12 @@ class SideLeft extends Component {
 
 					<div className="side-bar__content">
 						<div className="side-bar__item"
-							onClick={() => {this.setState({ modalUser: !this.state.modalUser })}}
+							onClick={() => UIModal.openModalUser()}
 						>
 							<i class="fa fa-users"></i> Utilizator
 						</div>
 						<div className="side-bar__item"
-							onClick={() => {this.setState({ modalAdmin: !this.state.modalAdmin }, UIModal.toggleModalAdmin(this.state.modalAdmin))}}
+							onClick={() => UIModal.openModalAdmin()}
 						>
 							<i class="fa fa-lock"></i> Administrator
 						</div>
