@@ -170,13 +170,20 @@ ul {
 	margin-left: auto;
 	display: none;
 	max-width: 100%;
+	width: 500px;
 	list-style-type: none;
 	text-align: center;
 	min-height: 125px;
+	height: 125px;
 
 	@media (max-width: 991px) {
 		padding-right: 60px;
 		padding-left: 60px;
+		width: 375px;
+	}
+
+	@media (max-width: 768px) {
+		width: 300px;
 	}
 
 	&--active {
@@ -185,12 +192,37 @@ ul {
 
 	&--item {
 		@include border-radius($inner-gutter--half);
+		@include center(horizontal, relative);
 		min-width: 300px;
 		min-height: 100%;
-		width: 300px;
-		height: 100%;
-		background: red;
+		width: 70%;
+		min-height: 100%;
+		background: $color-global-light;
 		display: block;
+		border: 3px solid $color-flag-1;
+
+		&-title {
+			display: block;
+			color: $color-global-negative;
+			font-size: 1em;
+			font-weight: 600;
+			font-style: italic;
+			margin-top: $inner-gutter--quarter;
+
+			.fa {
+				font-size: 1em;
+				color: $color-global-negative;
+			}
+		}
+
+		&-value {
+			@include text-align(left);
+			@include padding($inner-gutter--half, $zero, $zero, $inner-gutter--half);
+
+			font-size: 2em;
+			font-weight: 700;
+			font-style: italic;
+		}
 	}
 }
 
@@ -225,11 +257,12 @@ ul {
 	position: absolute;
 	top: 50%;
 	display: block;
-	color: $color-global-light;
+	color: red;
 	cursor: pointer;
 	opacity: .75;
 	transform: translateY(-50%);
 	transition: opacity .15s cubic-bezier(.4, 0, 1, 1);
+	z-index: map-get($z-indexs, above-all);
 
 	&:focus {
 		outline: 0;

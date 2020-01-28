@@ -58,23 +58,15 @@ class CarouselSlide extends Component {
 				}
 			>
 				<div className="carousel__slide--item">
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
-					asdasdasda
+					<div className="carousel__slide--item-title">
+						<i class="fas fa-chart-pie"></i>
+						REGIUNEA SELECTATA AICI
+					</div>
+
+					<div className="carousel__slide--item-value">
+						<i class="fas fa-chart-pie"></i>
+						33.333 / ppm
+					</div>
 				</div>
 			</li>
 			);
