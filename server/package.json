@@ -1,0 +1,17 @@
+{
+  "name": "hartapoluare-server",
+  "version": "1.0.0",
+  "description": "Reverse proxy server for elastic search and a tiny db",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.610.0",
+    "elasticsearch": "^16.6.0",
+    "http-aws-es": "^6.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
