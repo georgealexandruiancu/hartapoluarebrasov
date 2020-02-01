@@ -4,16 +4,15 @@
   "description": "Reverse proxy server for elastic search and a tiny db",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.610.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "elasticsearch": "^16.6.0",
-    "express": "^4.17.1",
-    "http-aws-es": "^6.0.0"
+    "express": "^4.17.1"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC"
