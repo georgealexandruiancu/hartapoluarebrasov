@@ -785,6 +785,8 @@ ul {
   text-align: center;
   min-height: 125px;
   height: 125px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 @media (max-width: 991px) {
@@ -960,11 +962,15 @@ ul {
   height: 100vh;
   z-index: 99999;
   background: rgba(0, 0, 0, 0.8);
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s, opacity 0.2s linear;
+  transition: visibility 0s, opacity 0.2s linear;
 }
 
 .modal-overlay--open {
-  display: initial;
+  visibility: visible;
+  opacity: 1;
 }
 
 .modal {

@@ -197,6 +197,7 @@ ul {
 	text-align: center;
 	min-height: 125px;
 	height: 125px;
+	transition: all 0.2s;
 
 	@media (max-width: 991px) {
 		padding-right: 60px;
@@ -358,10 +359,13 @@ ul {
 	height: 100vh;
 	z-index: map-get($z-indexs, max-above);
 	background: rgba($color-global-negative, .8);
-	display: none;
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s, opacity 0.2s linear;
 
 	&--open {
-		display: initial;
+		visibility: visible;
+		opacity: 1;
 	}
 }
 
