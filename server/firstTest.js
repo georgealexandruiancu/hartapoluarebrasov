@@ -1,71 +1,76 @@
-const elasticsearch = require('elasticsearch');
-const awsHttpClient = require('http-aws-es');
-const AWS = require('aws-sdk');
+var express = require('express');
+var app = express();
+var elasticsearch = require("elasticsearch");
+var cors = require('cors')
 
-AWS.config.region = 'us-east-1';
+var client = new elasticsearch.Client({
+	host: "https://alxxiancu:T3rminal98!@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243"
+});
 
-// const client = new elasticsearch.Client({
-// 	host: '8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243',
-// 	connectionClass: awsHttpClient,
-// 	auth: {
-// 		username: 'elastic',
-// 		password: ''
-// 	}
-// });
+app.use(cors())
 
-const client = new elasticsearch.Client({
-	node: 'https://elastic:AWbtmGda2Q7BI2bYpdjyF4qd@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243',
-	connectionClass: awsHttpClient,
-	log: "trace",
-	sniffOnStart: true
+app.get("/allDataFromMQ135", (req, res) => {
+	let data;
+	let hits;
+
+	client.search({
+		index: 'esp8266_dht11_mq135',
+		body: {
+			"query": {
+				"match_all": {}
+			}
+		}
+	}, function (err, resQuery, status) {
+		if(err) {
+			console.log(err);
+
+			res.status(404).json({
+				error: err
+			})
+		} else {
+			data = JSON.parse(JSON.stringify(resQuery));
+			hits = data.hits.hits;
+			console.log(hits);
+			res.status(200).json({
+				message: `SUCCESS  -  GET ALL DATA FROM MQ135`,
+				data: hits
+			});
+		}
+	})
+	// res.end();
+
 })
 
-async function run() {
-	// Let's start by indexing some data
-	await client.index({
-		index: 'module_gsm_senzors',
+
+app.get("/allDataFromMQ1", (req, res) => {
+	let data;
+	let hits;
+
+	client.search({
+		index: 'esp8266_dht11_mq1',
+		body: {
+			"query": {
+				"match_all": {}
+			}
+		}
+	}, function (err, resQuery, status) {
+		if(err) {
+			console.log(err);
+
+			res.status(404).json({
+				error: err
+			})
+		} else {
+			data = JSON.parse(JSON.stringify(resQuery));
+			hits = data.hits.hits;
+			res.status(200).json({
+				message: `SUCCESS  -  GET ALL DATA FROM MQ1`,
+				data: hits
+			});
+		}
 	})
+	// res.end();
 
-	await client.index({
-		index: 'esp8266_box1_test1',
-	})
+})
 
-	console.log(body.hits.hits)
-}
-
-run().catch((err) => console.log(err));
-
-// indexDocument(json);
-
-// function indexDocument(document) {
-// 	var endpoint = new AWS.Endpoint(domain);
-// 	var request = new AWS.HttpRequest(endpoint, region);
-
-// 	request.method = 'PUT';
-// 	request.path += index + "/" + type + "/" + id;
-
-// 	request.headers['host'] = domain;
-// 	request.headers['Content-Type'] = 'application/json';
-// 	// Content-Length is only needed for DELETE requests that include a request
-// 	// body, but including it for all requests doesn't seem to hurt anything.
-// 	request.headers['Content-Length'] = Buffer.byteLength(request.body);
-
-// 	var credentials = new AWS.EnvironmentCredentials('AWS');
-// 	var signer = new AWS.Signers.V4(request, 'es');
-// 	signer.addAuthorization(credentials, new Date());
-
-// 	var client = new AWS.HttpClient();
-// 	client.handleRequest(request, null, function (response) {
-// 			console.log(response.statusCode + ' ' + response.statusMessage);
-// 			var responseBody = '';
-// 			response.on('data', function (chunk) {
-// 				responseBody += chunk;
-// 			});
-
-// 			response.on('end', function (chunk) {
-// 				console.log('Response body: ' + responseBody);
-// 			});
-// 		}, function (error) {
-// 			console.log('Error: ' + error);
-// 		});
-// }
+app.listen(3000);
