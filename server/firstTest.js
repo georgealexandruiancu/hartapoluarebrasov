@@ -1,11 +1,14 @@
+require('dotenv').config();
+
 var express = require('express');
 var app = express();
 var elasticsearch = require("elasticsearch");
 var cors = require('cors')
 
 var client = new elasticsearch.Client({
-	host: "https://alxxiancu:T3rminal98!@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243"
+	host: `https://${process.env.AWS_USER}:${process.env.AWS_PASS}@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243`
 });
+
 
 app.use(cors())
 
