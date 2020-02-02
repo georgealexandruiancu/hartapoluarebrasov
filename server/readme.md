@@ -37,13 +37,13 @@ $ npm start
 ```
 
 ### API
-1. *Recive all data*
+# 1. *Recive all data*
 ```
 /getAll
 ```
 -- Return all data from DB elasticsearch with limit of 1000 entries
 
-2. *Recive specific data from sensors*
+# 2. *Recive specific data from sensors*
 ```
 /getAll/<sensor>/<limit>
 ```
@@ -54,6 +54,7 @@ $ npm start
 - E.g.: ```/getAll/mq135/100```
 
 ### TODO
+- post data to index
 - get data by keywords
 - get data with filters
 - store data to middleware for 12 hours
