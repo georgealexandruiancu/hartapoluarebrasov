@@ -1,23 +1,21 @@
 require('dotenv').config();
 
-/* 
-* ---------------------------------------
-* ! If you don't have the ssl certificate
-* Please disable the fs, key, cert
-* Note: some methods will not work properly
+/**  
+* ? ---------------------------------------
+* ? If you don't have the ssl certificate
+* ? Please disable the fs, key, cert
+* ! Note: some methods will not work properly
 */
-
 const fs = require("fs");
 const key = fs.readFileSync('./ssl/key.pem');
 const cert = fs.readFileSync('./ssl/cert.pem');
-/*
-*
-* ---------------------------------------
+const https = require('https');
+/**
+* ? ---------------------------------------
 */
 
 var express = require('express');
 var bodyParser = require('body-parser')
-const https = require('https');
 var app = express();
 var elasticsearch = require("elasticsearch");
 var cors = require('cors');
@@ -34,6 +32,58 @@ app.use(bodyParser.json());
 
 // cors
 app.use(cors());
+
+/** 
+ * Methods
+ */
+app.put("/registerUser/:hash", (req, res) => {
+	let userHash = req.params.hash;
+	let index = "airquality_" + userHash;
+
+	client.indices.putMapping({
+		index,
+		type: "_doc",
+		body: {
+			"properties": {
+				"MQ135": {
+					"fields": {
+						"value": { "type": "float" },
+						"heatIndex": { "type": "float" }
+					}
+				},
+				"PM25": {
+					"fields": {
+						"value": { "type": "float" },
+						"heatIndex": { "type": "float" }
+					}
+				},
+				"dustDensity": { "type": "float" },
+				"humidity": { "type": "long" },
+				"gpslocation": {
+					"fields": {
+						"lat": { "type": "float" },
+						"lng": { "type": "float" }
+					}
+				},
+				"name": { "type": "text" },
+				"temperature": { "type": "float" },
+				"timestamp": { "type": "date" }
+			}
+		}
+	}, function (err, resQuery, status) {
+		if (err) {
+			console.log(err);
+
+			res.status(404).json({
+				error: err
+			})
+		} else {
+			res.status(200).json({
+				message: `SUCCESS  -  CREATED CLUSTER FOR USER ${userHash}`
+			});
+		}
+	});
+});
 
 app.get("/getAll/:sensor?/:limit?", (req, res) => {
 	let data;
@@ -124,6 +174,10 @@ app.post("/postData/:sensor", cors() , (req, res) => {
 		}
 	})
 });
+
+/**
+ * ./Methods
+ */
 
 const server = https.createServer({ key: key, cert: cert }, app);
 server.listen(3001, () => { console.log('SSL ACTIVE  - listening on 3001') });
