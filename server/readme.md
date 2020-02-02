@@ -36,3 +36,25 @@ $ npm install --save
 $ npm start
 ```
 
+### API
+1. *Recive all data*
+```
+/getAll
+```
+-- Return all data from DB elasticsearch with limit of 1000 entries
+
+2. *Recive specific data from sensors*
+```
+/getAll/<sensor>/<limit>
+```
+-- 1. If we specific only the <sensor>, api will get us the 1000 entries from that sensor
+    <sensor: mq135 || mq1>
+-- 2. If we specific the <sensor> with <limit> we will have the data from sensor with a limit for entries
+    <limit: 0 -> 10000>
+-- E.g.: ```/getAll/mq135/100```
+
+### TODO
+- get data by keywords
+- get data with filters
+- store data to middleware for 12 hours
+
