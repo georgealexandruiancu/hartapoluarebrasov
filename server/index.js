@@ -12,16 +12,39 @@ var client = new elasticsearch.Client({
 
 app.use(cors())
 
-app.get("/allDataFromMQ135", (req, res) => {
+app.get("/getAll/:sensor?/:limit?", (req, res) => {
 	let data;
 	let hits;
+	var index = 'esp8266_dht11_*',
+		limit = {"from": 0, "size": 1000},
+		search = "MQ135 & MQ1";
+
+	let sensor = req.params.sensor;
+	let limitReq = req.params.limit;
+
+
+	if (sensor) {
+		index = "esp8266_dht11_" + sensor;
+		search = sensor.toUpperCase();
+	}
+
+	if (limitReq) {
+		limit = {
+			"from": 0, "size": limitReq,
+		}
+	}
+	else {
+		search = "ALL FIELDS";
+	}
+
 
 	client.search({
-		index: 'esp8266_dht11_mq135',
+		index: index,
 		body: {
+			...limit,
 			"query": {
 				"match_all": {}
-			}
+			},
 		}
 	}, function (err, resQuery, status) {
 		if(err) {
@@ -33,47 +56,19 @@ app.get("/allDataFromMQ135", (req, res) => {
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
-			console.log(hits);
-			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM MQ135`,
-				data: hits
-			});
-		}
-	})
-	// res.end();
 
-})
-
-
-app.get("/allDataFromMQ1", (req, res) => {
-	let data;
-	let hits;
-
-	client.search({
-		index: 'esp8266_dht11_mq1',
-		body: {
-			"query": {
-				"match_all": {}
+			if (limitReq) {
+				console.log(hits);
+			} else {
+				console.log(`Found it: ${hits.length}, from all search`);
 			}
-		}
-	}, function (err, resQuery, status) {
-		if(err) {
-			console.log(err);
 
-			res.status(404).json({
-				error: err
-			})
-		} else {
-			data = JSON.parse(JSON.stringify(resQuery));
-			hits = data.hits.hits;
 			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM MQ1`,
+				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
 				data: hits
 			});
 		}
-	})
-	// res.end();
-
-})
+	});
+});
 
 app.listen(3000);
