@@ -53,9 +53,53 @@ $ npm start
     <limit: 0 -> 10000>
 - E.g.: ```/getAll/mq135/100```
 
+# 3. *Register user in database with cluster*
+Method: ```PUT```
+```
+/registerUser/<hash>
+```
+- 1. This will register a new user in database for his <hash>
+
+# 4. *Add data for user*
+Method: ```POST```
+```
+/addDataUser/<hash>
+```
+- 1. Body Object to Post:
+```
+{
+	"MQ135": {
+		"heatIndex": <NUMBER>,
+		"value": <NUMBER>
+	},
+	"PM25": {
+		"heatIndex": <NUMBER>,
+		"value": <NUMBER>
+	},
+	"dustDensity": <NUMBER>,
+	"gpsLocation": {
+		"lat": <NUMBER>,
+		"lng": <NUMBER>
+	},
+	"humidity": <NUMBER>,
+	"name": <TEXT>,
+	"temperature": <NUMBER>
+}
+```
+
+# 5. *Get Data from a user*
+Method: ```GET```
+```
+/getUserData/<hash>
+```
+- 1. Recieve data from user with id <hash>
+
 ### TODO
-- post data to index
+- ~~post data to index~~
 - get data by keywords
 - get data with filters
 - store data to middleware for 12 hours
+- ~~register an user~~
+- ~~add data to user~~
+- ~~get data from user~~
 

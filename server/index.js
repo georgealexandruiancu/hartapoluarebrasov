@@ -79,7 +79,8 @@ app.put("/registerUser/:hash", (req, res) => {
 						},
 						name: { "type": "text" },
 						temperature: { "type": "float" },
-						timestamp: { "type": "date" }
+						timestamp: { "type": "date" },
+						dateEntry: { "type": "text" }
 					}
 				},
 				include_type_name: true
@@ -104,6 +105,8 @@ app.put("/registerUser/:hash", (req, res) => {
 app.post("/addDataUser/:hash", (req, res) => {
 	let hash = req.params.hash;
 	let index = "airquality_" + hash;
+	let dateNow = Date.now();
+	let dateEntry = Date(dateNow);
 
 	if (!hash) {
 		res.send(400).send({
@@ -114,7 +117,11 @@ app.post("/addDataUser/:hash", (req, res) => {
 	client.index({
 		index: index,
 		type: "_doc",
-		body: req.body
+		body: {
+			...req.body,
+			timestamp: dateNow,
+			dateEntry: dateEntry
+		}
 	}, function (err, resp, status) {
 		if (err) {
 			console.log(err);
