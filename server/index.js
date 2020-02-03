@@ -40,35 +40,130 @@ app.put("/registerUser/:hash", (req, res) => {
 	let userHash = req.params.hash;
 	let index = "airquality_" + userHash;
 
-	client.indices.putMapping({
+	client.index({
 		index,
+		body: {}
+	}, function (errorIndex, resIndex, status) {
+		if (errorIndex) {
+			console.log(errorIndex);
+
+			res.status(404).json({
+				error: errorIndex
+			})
+		}
+		else {
+			client.indices.putMapping({
+				index,
+				type: "_doc",
+				body: {
+					properties: {
+						MQ135: {
+							properties: {
+								value: { "type": "float" },
+								heatIndex: { "type": "float" }
+							}
+						},
+						PM25: {
+							properties: {
+								value: { "type": "float" },
+								heatIndex: { "type": "float" }
+							}
+						},
+						dustDensity: { "type": "float" },
+						humidity: { "type": "long" },
+						gpslocation: {
+							properties: {
+								lat: { "type": "float" },
+								lng: { "type": "float" }
+							}
+						},
+						name: { "type": "text" },
+						temperature: { "type": "float" },
+						timestamp: { "type": "date" }
+					}
+				},
+				include_type_name: true
+			}, function (err, resQuery, status) {
+				if (err) {
+					console.log(err);
+
+					res.status(404).json({
+						error: err
+					})
+				} else {
+					res.status(200).json({
+						message: `SUCCESS  -  CREATED CLUSTER FOR USER ${userHash}`
+					});
+				}
+			});
+
+		}
+	})
+});
+
+app.post("/addDataUser/:hash", (req, res) => {
+	let hash = req.params.hash;
+	let index = "airquality_" + hash;
+
+	if (!hash) {
+		res.send(400).send({
+			message: "User id is requried"
+		});
+	}
+
+	client.index({
+		index: index,
 		type: "_doc",
+		body: req.body
+	}, function (err, resp, status) {
+		if (err) {
+			console.log(err);
+
+			res.status(404).json({
+				error: err
+			})
+		}
+		else {
+			res.send({
+				message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
+				response: resp
+			})
+		}
+	});
+
+});
+
+app.get("/getUserData/:hash/:limit?", (req, res) => {
+	let data;
+	let hits;
+	let hash = req.params.hash;
+	let limitReq = req.params.limit;
+	var index = 'airquality_' + hash,
+		limit = { "from": 0, "size": 1000 };
+
+	if (!hash) {
+		res.send(400).send({
+			message: "User id is requried"
+		});
+	}
+
+	if (limitReq) {
+		limit = {
+			"from": 0, "size": limitReq,
+		}
+	}
+	else {
+		search = "ALL FIELDS";
+	}
+
+
+	client.search({
+		index: index,
 		body: {
-			"properties": {
-				"MQ135": {
-					"fields": {
-						"value": { "type": "float" },
-						"heatIndex": { "type": "float" }
-					}
-				},
-				"PM25": {
-					"fields": {
-						"value": { "type": "float" },
-						"heatIndex": { "type": "float" }
-					}
-				},
-				"dustDensity": { "type": "float" },
-				"humidity": { "type": "long" },
-				"gpslocation": {
-					"fields": {
-						"lat": { "type": "float" },
-						"lng": { "type": "float" }
-					}
-				},
-				"name": { "type": "text" },
-				"temperature": { "type": "float" },
-				"timestamp": { "type": "date" }
-			}
+			...limit,
+			"query": {
+				"match_all": {}
+			},
 		}
 	}, function (err, resQuery, status) {
 		if (err) {
@@ -78,8 +173,18 @@ app.put("/registerUser/:hash", (req, res) => {
 				error: err
 			})
 		} else {
+			data = JSON.parse(JSON.stringify(resQuery));
+			hits = data.hits.hits;
+
+			if (limitReq) {
+				console.log(hits);
+			} else {
+				console.log(`Found it: ${hits.length}, from all search`);
+			}
+
 			res.status(200).json({
-				message: `SUCCESS  -  CREATED CLUSTER FOR USER ${userHash}`
+				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+				data: hits
 			});
 		}
 	});
