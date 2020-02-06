@@ -258,7 +258,7 @@ app.get("/getAllData/:sensor?", (req, res) => {
 	});
 });
 
-app.get("/getDataByRadius/:radius/:lat/:lng/:limit?", (req, res) => {
+app.get("/getDataByRadius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	let data;
 	let hits;
 	var index = 'airquality_*',
@@ -271,6 +271,12 @@ app.get("/getDataByRadius/:radius/:lat/:lng/:limit?", (req, res) => {
 	}
 	let limitReq = req.query.limit;
 
+	let userHash = req.params.hashUser;
+
+	if(userHash) {
+		index = "airquality_" + userHash;
+	}
+
 	let search = `AIRQUALITY BY RADIUS: ${radius} ON POINT ${point.lat} & ${point.lng}`;
 
 	if (limitReq) {
@@ -281,7 +287,6 @@ app.get("/getDataByRadius/:radius/:lat/:lng/:limit?", (req, res) => {
 	else {
 		search = "AIRQUALITY ALL FIELDS";
 	}
-
 
 	client.search({
 		index: index,
@@ -297,7 +302,7 @@ app.get("/getDataByRadius/:radius/:lat/:lng/:limit?", (req, res) => {
 							"distance" : radius,
 							"gpslocation.location" : {
 								"lat" : parseInt(point.lat),
-								"lng" : parseInt(point.lng)
+								"lon" : parseInt(point.lng)
 							}
 						}
 					}
