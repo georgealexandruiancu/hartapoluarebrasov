@@ -102,6 +102,17 @@ Method: ```GET```
 - 1. Recieve data from all users
 - 2. ```?limit=``` - is an optional query
 
+# 6. *Get Air Quality from radius point -- not available for now*
+Method: ```GET```
+```
+/getDataByRadius/<radius>/<lat>/<lng>/<limit>
+```
+- 1. Recieve all data from a checkpoint radius
+- 2. ```<radius>``` - eg: 1km, 100m, 100km, 1000miles - string
+- 3. ```<lat>``` - point latitude - float
+- 4. ```<lng>``` - point longitude - float
+- 5. ```<limit>``` - recieve max data from 0 to <limit> - number
+
 ### TODO
 - ~~post data to index~~
 - get data by keywords
