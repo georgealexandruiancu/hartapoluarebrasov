@@ -59,17 +59,15 @@ app.put("/registerUser/:hash", (req, res) => {
 					properties: {
 						MQ135: {
 							properties: {
-								value: { "type": "float" },
-								heatIndex: { "type": "float" }
+								value: { "type": "float" }
 							}
 						},
 						PM25: {
 							properties: {
 								value: { "type": "float" },
-								heatIndex: { "type": "float" }
+								dustDensity: { "type": "float" }
 							}
 						},
-						dustDensity: { "type": "float" },
 						humidity: { "type": "long" },
 						gpslocation: {
 							properties: {

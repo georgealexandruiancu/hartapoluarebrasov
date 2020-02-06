@@ -69,14 +69,12 @@ Method: ```POST```
 ```
 {
 	"MQ135": {
-		"heatIndex": <NUMBER>,
 		"value": <NUMBER>
 	},
 	"PM25": {
-		"heatIndex": <NUMBER>,
+		"dustDensity": <NUMBER>,
 		"value": <NUMBER>
 	},
-	"dustDensity": <NUMBER>,
 	"gpsLocation": {
 		"lat": <NUMBER>,
 		"lng": <NUMBER>
