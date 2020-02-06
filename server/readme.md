@@ -102,7 +102,7 @@ Method: ```GET```
 - 1. Recieve data from all users
 - 2. ```?limit=``` - is an optional query
 
-# 6. *Get Air Quality from radius point -- not available for now*
+# 7. *Get Air Quality from radius point -- not available for now*
 Method: ```GET```
 ```
 /getDataByRadius/<radius>/<lat>/<lng>/<limit>
