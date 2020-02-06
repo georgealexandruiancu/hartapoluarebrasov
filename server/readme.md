@@ -75,9 +75,11 @@ Method: ```POST```
 		"dustDensity": <NUMBER>,
 		"value": <NUMBER>
 	},
-	"gpsLocation": {
-		"lat": <NUMBER>,
-		"lng": <NUMBER>
+	"gpslocation": {
+		"location": {
+			"lat": <NUMBER>,
+			"lon": <NUMBER>
+		}
 	},
 	"humidity": <NUMBER>,
 	"name": <TEXT>,
@@ -91,6 +93,14 @@ Method: ```GET```
 /getUserData/<hash>
 ```
 - 1. Recieve data from user with id <hash>
+
+# 6. *Get All Data from all users*
+Method: ```GET```
+```
+/getAllData?limit=<NUMBER>
+```
+- 1. Recieve data from all users
+- 2. ```?limit=``` - is an optional query
 
 ### TODO
 - ~~post data to index~~
