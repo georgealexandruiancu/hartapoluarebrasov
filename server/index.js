@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+let appPath = process.env.DEV_PATH;
+
 /**  
 * ? ---------------------------------------
 * ? If you don't have the ssl certificate
@@ -36,6 +38,58 @@ app.use(cors());
 /** 
  * Methods
  */
+
+app.put("/createUsersIndex", (req, res) => {
+	let index = "users";
+
+	client.index({
+		index,
+		body: {}
+	}, function (errorIndex, resIndex, status) {
+		if (errorIndex) {
+			console.log(errorIndex);
+
+			res.status(404).json({
+				error: errorIndex
+			})
+		}
+		else {
+			client.indices.putMapping({
+				index,
+				type: "_doc",
+				body: {
+					properties: {
+						name: { "type": "text" },
+						email: { "type": "text" },
+						password: { "type": "text" },
+						codeRegistration: { "type": "text" },
+						deviceId: {  "type": "text" },
+						registerDate: { "type": "date" },
+						statusAccount: { "type": "text" },
+						lastLogin: { "type": "date" },
+						lockedMode:	{ "type": "boolean" },
+						confirmationAdminDate: { "type": "date" }
+					}
+				},
+				include_type_name: true
+			}, function (err, resQuery, status) {
+				if (err) {
+					console.log(err);
+
+					res.status(404).json({
+						error: err
+					})
+				} else {
+					res.status(200).json({
+						message: `SUCCESS  -  CREATED CLUSTER FOR USERS`
+					});
+				}
+			});
+
+		}
+	});
+});
+
 app.put("/registerUser/:hash", (req, res) => {
 	let userHash = req.params.hash;
 	let index = "airquality_" + userHash;
