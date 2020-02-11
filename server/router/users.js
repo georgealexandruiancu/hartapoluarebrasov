@@ -38,7 +38,7 @@ router.put("/create-users-index", (req, res) => {
 	let index = "users";
 
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "PUT");
+	logger.writeLog(ip, req.originalUrl, "ROOT", "PUT");
 
 	client.index({
 		index,
@@ -98,7 +98,7 @@ router.post("/add-user", async (req, res) => {
 	let deviceId = makeid(5) + dateNow;
 
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "POST");
+	logger.writeLog(ip, req.originalUrl, "ROOT", "POST");
 
 	client.index({
 		index: index,
@@ -266,6 +266,9 @@ router.post("/add-data-user/:hash", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
+
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 	}
 
 	let hash = req.params.hash;
@@ -328,6 +331,9 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
+
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 	}
 
 	let data;
@@ -355,8 +361,7 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 		search = "ALL FIELDS";
 	}
 
-	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
+
 
 	client.search({
 		index: index,
