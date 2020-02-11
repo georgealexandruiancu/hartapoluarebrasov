@@ -56,9 +56,11 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 		if(err) {
 			console.log(err);
 
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
@@ -68,11 +70,12 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 			} else {
 				console.log(`Found it: ${hits.length}, from all search`);
 			}
-
-			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-				data: hits
-			});
+			if (req.user) {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: hits
+				});
+			}
 		}
 	});
 });
@@ -82,8 +85,6 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
-
-
 	}
 
 	let data;
@@ -142,20 +143,22 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	}, function (err, resQuery, status) {
 		if(err) {
 			console.log(err);
-
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
 
 			console.log(`Found it: ${hits.length}, from radius: ${radius} on point ${point.lat} & ${point.lng}`);
-
-			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-				data: hits
-			});
+			if (req.user) {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: hits
+				});
+			}
 		}
 	});
 });
@@ -165,8 +168,6 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
-
-
 	}
 
 	let data;
@@ -208,9 +209,11 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		if(err) {
 			console.log(err);
 
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
@@ -220,11 +223,12 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 			} else {
 				console.log(`Found it: ${hits.length}, from all search`);
 			}
-
-			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-				data: hits
-			});
+			if (req.user) {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: hits
+				});
+			}
 		}
 	});
 });
@@ -234,8 +238,6 @@ router.post("/post-data/:sensor", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
-
-
 	}
 
 	let sensor = req.params.sensor;
@@ -258,15 +260,19 @@ router.post("/post-data/:sensor", (req, res) => {
 		if(err) {
 			console.log(err);
 
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		}
 		else {
-			res.send({
-				message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
-				response: resp
-			}) 
+			if (req.user) {
+				res.send({
+					message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
+					response: resp
+				})
+			}
 		}
 	})
 });

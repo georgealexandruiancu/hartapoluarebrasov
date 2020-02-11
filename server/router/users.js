@@ -274,9 +274,11 @@ router.post("/add-data-user/:hash", (req, res) => {
 	let dateEntry = Date(dateNow);
 
 	if (!hash) {
-		res.send(400).send({
-			message: "User id is requried"
-		});
+		if (req.user) {
+			res.send(400).send({
+				message: "User id is requried"
+			});
+		}
 	}
 
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -309,15 +311,19 @@ router.post("/add-data-user/:hash", (req, res) => {
 		if (err) {
 			console.log(err);
 
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		}
 		else {
-			res.send({
-				message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
-				response: resp
-			})
+			if (req.user) {
+				res.send({
+					message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
+					response: resp
+				})
+			}
 		}
 	});
 
@@ -369,10 +375,11 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 	}, function (err, resQuery, status) {
 		if (err) {
 			console.log(err);
-
-			res.status(404).json({
-				error: err
-			})
+			if (req.user) {
+				res.status(404).json({
+					error: err
+				})
+			}
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
@@ -383,10 +390,12 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 				console.log(`Found it: ${hits.length}, from all search`);
 			}
 
-			res.status(200).json({
-				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-				data: hits
-			});
+			if (req.user) {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: hits
+				});
+			}
 		}
 	});
 });
