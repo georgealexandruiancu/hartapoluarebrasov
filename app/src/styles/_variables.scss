@@ -35,9 +35,17 @@ $inner-gutter--double:					$inner-gutter * 2;
 $inner-gutter--tripple:					$inner-gutter * 3;
 $inner-gutter--quarter:					$inner-gutter / 4;
 
+$font-family-global:					'Titillium Web', sans-serif;
 
-$marker-size-width:				18px;
-$marker-size-height:			$marker-size-width;
 
-$side-container-width:			200px;
-$bottom-container-height:		$side-container-width;
+$marker-size-width:						18px;
+$marker-size-height:					$marker-size-width;
+
+$side-container-width:					200px;
+$bottom-container-height:				$side-container-width;
+
+$splash-screen-mobile-height:			812px;
+$splash-screen-mobile-height-max:		$splash-screen-mobile-height / 2;
+
+$button-primary-border-radius:			5px;
+$button-primary-width:					150px;

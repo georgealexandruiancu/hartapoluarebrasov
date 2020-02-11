@@ -6,14 +6,16 @@ const router = express.Router();
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
+var logger = require("../log/logger");
+
 var elasticsearch = require("elasticsearch");
 var client = new elasticsearch.Client({
 	host: `https://${process.env.AWS_USER}:${process.env.AWS_PASS}@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243`
 });
 
 function makeid(length) {
-	var result           = '';
-	var characters       = 'abcdefghijklmnopqrstuvwxyz';
+	var result = '';
+	var characters = 'abcdefghijklmnopqrstuvwxyz';
 	var charactersLength = characters.length;
 	for ( var i = 0; i < length; i++ ) {
 	   result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -32,7 +34,11 @@ router.get("/logout", (req, res) => {
 });
 
 router.put("/create-users-index", (req, res) => {
+
 	let index = "users";
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "PUT");
 
 	client.index({
 		index,
@@ -52,10 +58,10 @@ router.put("/create-users-index", (req, res) => {
 				body: {
 					properties: {
 						name: { "type": "text" },
-						email: { "type": "text" },
+						email: { "type": "keyword" },
 						password: { "type": "text" },
-						codeRegistration: { "type": "text" },
-						deviceId: {  "type": "text" },
+						codeRegistration: { "type": "keyword" },
+						deviceId: {  "type": "keyword" },
 						registerDate: { "type": "date" },
 						statusAccount: { "type": "text" },
 						lastLogin: { "type": "date" },
@@ -90,6 +96,9 @@ router.post("/add-user", async (req, res) => {
 	console.log(hashedPassword);
 	let codeRegistration = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
 	let deviceId = makeid(5) + dateNow;
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "POST");
 
 	client.index({
 		index: index,
@@ -148,10 +157,6 @@ registerUserDevice = async (hash) => {
 			if (errorIndex) {
 				console.log(errorIndex);
 				reject(errorIndex);
-
-				// res.status(404).json({
-				// 	error: errorIndex
-				// })
 			}
 			else {
 				client.indices.putMapping({
@@ -257,9 +262,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/add-data-user/:hash", (req, res) => {
-
 	if (!req.user) {
-		res.status(401).send();
+		res.status(401).json({
+			message: "You are not logged in !"
+		});
 	}
 
 	let hash = req.params.hash;
@@ -273,11 +279,29 @@ router.post("/add-data-user/:hash", (req, res) => {
 		});
 	}
 
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "POST");
+
 	client.index({
 		index: index,
 		type: "_doc",
 		body: {
-			...req.body,
+			MQ135: {
+				value: req.body.MQ135.value
+			},
+			PM25: {
+				dustDensity: req.body.PM25.dustDensity,
+				value: req.body.PM25.value
+			},
+			humidity: req.body.humidity,
+			name: req.body.name,
+			temperature: req.body.temperature,
+			gpslocation: {
+				location: {
+					lat: req.body.gpslocation.location.lat,
+					lon: req.body.gpslocation.location.lon
+				}
+			},
 			timestamp: dateNow,
 			dateEntry: dateEntry
 		}
@@ -300,9 +324,10 @@ router.post("/add-data-user/:hash", (req, res) => {
 });
 
 router.get("/get-user-data/:hash/:limit?", (req, res) => {
-
 	if (!req.user) {
-		res.status(401).send();
+		res.status(401).json({
+			message: "You are not logged in !"
+		});
 	}
 
 	let data;
@@ -330,6 +355,8 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 		search = "ALL FIELDS";
 	}
 
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 
 	client.search({
 		index: index,

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
+var logger = require("../log/logger");
+
 var elasticsearch = require("elasticsearch");
 var client = new elasticsearch.Client({
 	host: `https://${process.env.AWS_USER}:${process.env.AWS_PASS}@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243`
@@ -7,9 +10,10 @@ var client = new elasticsearch.Client({
 
 
 router.get("/get-all-data/:sensor?", (req, res) => {
-	console.log(req.user);
 	if (!req.user) {
-		res.status(401).send();
+		res.status(401).json({
+			message: "You are not logged in !"
+		});
 	}
 
 	let data;
@@ -35,6 +39,10 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 	else {
 		search = "ALL FIELDS";
 	}
+	console.log(req.originalUrl);
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 
 
 	client.search({
@@ -71,6 +79,12 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 });
 
 router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
+	if (!req.user) {
+		res.status(401).json({
+			message: "You are not logged in !"
+		});
+	}
+
 	let data;
 	let hits;
 	var index = 'airquality_*',
@@ -99,6 +113,9 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	else {
 		search = "AIRQUALITY ALL FIELDS";
 	}
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 
 	client.search({
 		index: index,
@@ -143,6 +160,12 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 });
 
 router.get("/get-all/:sensor?/:limit?", (req, res) => {
+	if (!req.user) {
+		res.status(401).json({
+			message: "You are not logged in !"
+		});
+	}
+
 	let data;
 	let hits;
 	var index = 'esp8266_dht11_*',
@@ -167,6 +190,8 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		search = "ALL FIELDS";
 	}
 
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 
 	client.search({
 		index: index,
@@ -202,6 +227,10 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 });
 // test cors() middleware
 router.post("/post-data/:sensor", (req, res) => {
+	res.status(401).json({
+		message: "You are not logged in !"
+	});
+
 	let sensor = req.params.sensor;
 	let index = "esp8266_dht11_" + sensor;
 
@@ -210,6 +239,9 @@ router.post("/post-data/:sensor", (req, res) => {
 			message: "Sensor id is requried"
 		});
 	}
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user[0]._id, "POST");
 
 	client.index({
 		index: index,

@@ -422,3 +422,265 @@ ul {
 		}
 	}
 }
+
+.splashscreen {
+	&__buttons {
+		z-index: map-get($z-indexs, above-all);
+		position: absolute;
+		top: 80%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+
+
+		.button-primary {
+			@include margin($inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--quarter);
+		}
+	}
+	&-wrapper {
+		display: flex;
+		flex-direction: row;
+
+		.col {
+			flex: 50%;
+			height: 100%;
+			min-height: 937px;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.form-wrapper {
+			background: url("../assets/grey-paper-texture.jpg");
+			background-repeat: repeat;
+		}
+	}
+
+	&-wrapper__bg {
+		/* Location of the image */
+		background-image: url("../assets/Capture.PNG");
+
+		/* Background image is centered vertically and horizontally at all times */
+		background-position: center;
+		
+		/* Background image doesn't tile */
+		background-repeat: no-repeat;
+		
+		/* Background image is fixed in the viewport so that it doesn't move when 
+			the content's height is greater than the image's height */
+		background-attachment: fixed;
+		
+		/* This is what makes the background image rescale based
+			on the container's size */
+		background-size: cover;
+		
+		/* Set a background color that will be displayed
+			while the background image is loading */
+		background-color: #464646;
+	}
+
+	&__overlay {
+		width: $full;
+		height: $full;
+		background-color: rgba($color-global-dark, .5);
+		position: absolute;
+		top: $zero;
+		left: $zero;
+		overflow: hidden;
+		z-index: map-get($z-indexs, above);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.splashscreen-wrapper:not(.splashscreen-no-reverse) {
+		flex-direction: column-reverse;
+
+		.col {
+			min-height: $splash-screen-mobile-height-max;
+			max-height: $splash-screen-mobile-height-max;
+		}
+	}
+
+	.splashscreen-wrapper.splashscreen-no-reverse {
+		flex-direction: column;
+
+		.col {
+			min-height: $splash-screen-mobile-height-max;
+			max-height: $splash-screen-mobile-height-max;
+		}
+	}
+}
+
+.pulse {
+	@include text-align(center);
+
+	z-index: map-get($z-indexs, above-all);
+	display: block;
+	border-radius: 50%;
+	background: rgba($color-global-dark, 0.4);
+	cursor: pointer;
+	box-shadow: 0 0 0 rgba($color-global-dark, 0.4);
+	animation: pulse 2s infinite;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 350px;
+	height: 350px;
+	transform: translate(-50%, -50%);
+
+	img {
+		width: 320px;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+.pulse:hover {
+	animation: none;
+}
+
+@media screen and (max-width: 768px) {
+	.splashscreen-wrapper__homepage {
+		.pulse {
+			top: 30%;
+		}
+	}
+}
+
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-box-shadow: 0 0 0 0 rgba($color-global-dark, 0.4);
+	}
+	70% {
+		-webkit-box-shadow: 0 0 0 30px rgba($color-global-dark, 0);
+	}
+	100% {
+		-webkit-box-shadow: 0 0 0 0 rgba($color-global-dark, 0);
+	}
+}
+@keyframes pulse {
+	0% {
+		-moz-box-shadow: 0 0 0 0 rgba($color-global-dark, 0.4);
+		box-shadow: 0 0 0 0 rgba($color-global-dark, 0.4);
+	}
+	70% {
+		-moz-box-shadow: 0 0 0 30px rgba($color-global-dark, 0);
+		box-shadow: 0 0 0 30px rgba($color-global-dark, 0);
+	}
+	100% {
+		-moz-box-shadow: 0 0 0 0 rgba($color-global-dark, 0);
+		box-shadow: 0 0 0 0 rgba($color-global-dark, 0);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.pulse {
+		width: 250px;
+		height: 250px;
+
+		img {
+			width: 220px;
+		}
+	}
+}
+
+.form-user {
+	@include center(both, absolute);
+	width: 70%;
+	padding: $inner-gutter--double;
+
+	&__title {
+		font-size: 2.5em;
+		font-weight: 900;
+		text-align: center;
+		color: $color-global-dark;
+		letter-spacing: 1px;
+	}
+
+	&__input-holder {
+		@include margin($inner-gutter--double, $zero, $zero, $zero);
+	}
+
+	&__input {
+		@include margin($inner-gutter, $zero, $inner-gutter, $zero);
+
+		
+		input {
+			@include padding($inner-gutter--half, $inner-gutter--half, $inner-gutter--half, $inner-gutter--half);
+			width: $full;
+			border: none;
+			border-bottom: 3px solid $color-global-dark;
+			outline: none;
+			background: transparent;
+			color: $color-global-dark;
+			font-weight: 600;
+			letter-spacing: 1px;
+			transition: all .3s;
+
+			&::placeholder {
+				color: $color-global-dark;
+				font-weight: 600;
+			}
+
+			&:focus {
+				color: $color-global-middle;
+				border-color: $color-global-middle;
+
+				.form-user__input input::placeholder {
+					color: $color-global-middle;
+				}
+			}
+		}
+	}
+
+	&__checkbox {
+		margin-bottom: $inner-gutter--double;
+		label {
+			.css-checkbox {
+				@include css-checkbox(18px, $selectedColor: $color-global-middle);
+			}
+		}
+
+		&--text{
+			display: inline-block;
+			margin-left: $inner-gutter--half;
+		}
+	}
+
+	&__input--button {
+		text-align: center;
+		margin-top: $inner-gutter--double;
+	}
+
+	// css checkbox
+
+
+}
+
+.button-primary {
+	@include padding($inner-gutter--half, $inner-gutter--half, $inner-gutter--half, $inner-gutter--half);
+	@include border-radius($button-primary-border-radius);
+
+	width: $button-primary-width;
+	color: $color-global-positive;
+	background-color: $color-global-middle;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	border: 2px solid $color-global-middle;
+	transition: all .3s;
+	cursor: pointer;
+
+	&:hover {
+		background-color: $color-global-positive;
+		color: $color-global-dark;
+	}
+
+	&--alt {
+		background-color: $color-global-positive;
+		color: $color-global-dark;
+
+		&:hover {
+			color: $color-global-positive;
+			background-color: $color-global-middle;
+		}
+	}
+}

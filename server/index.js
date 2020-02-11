@@ -83,8 +83,8 @@ getUserById = async (id) => {
 		body: {
 			...limit,
 			"query": {
-				"terms": {
-				  "_id": [id] 
+				"term": {
+					"_id": id
 				}
 			}
 		}
