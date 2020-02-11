@@ -14,9 +14,6 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 		res.status(401).json({
 			message: "You are not logged in !"
 		});
-
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
 	}
 
 	let data;
@@ -44,6 +41,8 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 	}
 	console.log(req.originalUrl);
 
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "GET");
 
 	client.search({
 		index: index,
@@ -84,8 +83,7 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 			message: "You are not logged in !"
 		});
 
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
+
 	}
 
 	let data;
@@ -116,6 +114,9 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	else {
 		search = "AIRQUALITY ALL FIELDS";
 	}
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "GET");
 
 	client.search({
 		index: index,
@@ -165,8 +166,7 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 			message: "You are not logged in !"
 		});
 
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "GET");
+
 	}
 
 	let data;
@@ -193,6 +193,8 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		search = "ALL FIELDS";
 	}
 
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "GET");
 
 	client.search({
 		index: index,
@@ -233,8 +235,7 @@ router.post("/post-data/:sensor", (req, res) => {
 			message: "You are not logged in !"
 		});
 
-		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		logger.writeLog(ip, req.originalUrl, req.user[0]._id, "POST");
+
 	}
 
 	let sensor = req.params.sensor;
@@ -245,6 +246,9 @@ router.post("/post-data/:sensor", (req, res) => {
 			message: "Sensor id is requried"
 		});
 	}
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "POST");
 
 	client.index({
 		index: index,
