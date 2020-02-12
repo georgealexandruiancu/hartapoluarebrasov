@@ -245,4 +245,10 @@ Method: ```GET```
 - ~~register an user~~
 - ~~add data to user~~
 - ~~get data from user~~
+- make users active on platform to setting a index: PENDING / ACTIVE
+- create a sys for mailing
+- update users confidentials eg. pass, name
+- get data from range of time
+- get data only for a day
+- get data for charts
 
