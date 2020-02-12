@@ -251,4 +251,5 @@ Method: ```GET```
 - get data from range of time
 - get data only for a day
 - get data for charts
+- create administrator database to update users
 
