@@ -33,8 +33,12 @@ class Homepage extends Component {
 							
 						</div>
 						<div className="splashscreen__buttons">
-							<button className="button-primary">LOGIN</button>
-							<button className="button-primary">REGISTER</button>
+							<a href="/login">
+								<button className="button-primary">LOGIN</button>
+							</a>
+							<a href="/register">
+								<button className="button-primary">REGISTER</button>
+							</a>
 						</div>
 					</div>
 				</div>

@@ -50,7 +50,7 @@ class MapContainer extends Component {
 		return (
 		<div style={{ height: '100vh', width: '100%' }}>
 			<GoogleMapReact
-				bootstrapURLKeys={{ key: 'AIzaSyAssHpNB_Hpj_hFKudAalPultvahAojIng' }}
+				bootstrapURLKeys={{ key: 'AIzaSyAn3ysSEdMxZ5Dp3y0TU6yWTSTxngIJmJ4' }}
 				defaultCenter={this.props.center}
 				defaultZoom={this.props.zoom}
 				heatmapLibrary={true}

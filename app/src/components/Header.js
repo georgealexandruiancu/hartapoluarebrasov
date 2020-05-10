@@ -9,7 +9,7 @@ class Header extends Component {
 					<i className="fa fa-info-circle"></i>
 				</div>
 				<div className="container__col-6  title-container__text">
-					Harta Poluare Brasov
+					<img src={require("../assets/Logo_Text_White.png")} alt="Harta Poluare Brasov"/>
 				</div>
 				<div className="container__col-3  title-container__icon  title-container__icon--alt">
 					<i className="fa fa-cogs"></i>

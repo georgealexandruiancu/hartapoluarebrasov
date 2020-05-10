@@ -42,8 +42,12 @@
 		font-size: 1.2em;
 		vertical-align: middle;
 		font-weight: 600;
+
+		img {
+			width: 125px;
+		}
 	}
-	
+
 	&__icon {
 		@include text-align(left);
 		cursor: pointer;
@@ -58,7 +62,8 @@
 .side-container {
 	width: $side-container-width;
 	max-width: $side-container-width;
-	background: $color-global-dark;
+	background: url("../assets/grey-paper-texture.jpg");
+	background-repeat: repeat;
 	height: 100%;
 	position: fixed;
 	top: $zero;
@@ -91,7 +96,7 @@
 			&--left {
 				right: $inner-gutter;
 			}
-	
+
 			&--right {
 				left: $inner-gutter;
 			}
@@ -386,7 +391,7 @@ ul {
 		@include padding($inner-gutter, $inner-gutter, $inner-gutter, $inner-gutter);
 
 		background: $color-global-dark;
-		color: $color-global-light;		
+		color: $color-global-light;
 		font-size: 1.2em;
 	}
 
@@ -460,18 +465,18 @@ ul {
 
 		/* Background image is centered vertically and horizontally at all times */
 		background-position: center;
-		
+
 		/* Background image doesn't tile */
 		background-repeat: no-repeat;
-		
-		/* Background image is fixed in the viewport so that it doesn't move when 
+
+		/* Background image is fixed in the viewport so that it doesn't move when
 			the content's height is greater than the image's height */
 		background-attachment: fixed;
-		
+
 		/* This is what makes the background image rescale based
 			on the container's size */
 		background-size: cover;
-		
+
 		/* Set a background color that will be displayed
 			while the background image is loading */
 		background-color: #464646;
@@ -595,6 +600,14 @@ ul {
 		letter-spacing: 1px;
 	}
 
+	&__description {
+		font-size: 1em;
+		font-weight: normal;
+		text-align: center;
+		color: $color-global-dark;
+		letter-spacing: 1px;
+	}
+
 	&__input-holder {
 		@include margin($inner-gutter--double, $zero, $zero, $zero);
 	}
@@ -602,7 +615,7 @@ ul {
 	&__input {
 		@include margin($inner-gutter, $zero, $inner-gutter, $zero);
 
-		
+
 		input {
 			@include padding($inner-gutter--half, $inner-gutter--half, $inner-gutter--half, $inner-gutter--half);
 			width: $full;
@@ -629,6 +642,20 @@ ul {
 				}
 			}
 		}
+
+		&--large {
+			margin: 0 auto;
+			text-align: center;
+
+			input {
+				width: 75px;
+				height: 75px;
+				border: 2px solid $color-global-middle;
+				font-size: 3em;
+				text-align: center;
+				margin-left: $inner-gutter;
+			}
+		}
 	}
 
 	&__checkbox {
@@ -645,9 +672,40 @@ ul {
 		}
 	}
 
+	&__message {
+		&--success,
+		&--bad {
+			text-align: center;
+
+			.fa {
+				font-size: 4em;
+			}
+		}
+
+		&--success {
+			.fa {
+				color: $color-global-middle;
+			}
+
+			.button-primary {
+				margin-top: $inner-gutter;
+			}
+		}
+
+		&--bad {
+			.fa {
+				color: $color-flag-1;
+			}
+		}
+	}
+
 	&__input--button {
 		text-align: center;
 		margin-top: $inner-gutter--double;
+	}
+
+	&__loading {
+		text-align: center;
 	}
 
 	// css checkbox
@@ -668,6 +726,7 @@ ul {
 	border: 2px solid $color-global-middle;
 	transition: all .3s;
 	cursor: pointer;
+	outline: $zero;
 
 	&:hover {
 		background-color: $color-global-positive;
@@ -682,5 +741,41 @@ ul {
 			color: $color-global-positive;
 			background-color: $color-global-middle;
 		}
+	}
+}
+
+.o-ring {
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 80px;
+}
+.o-ring div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 64px;
+	height: 64px;
+	margin: 8px;
+	border: 8px solid $color-global-middle;
+	border-radius: 50%;
+	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: $color-global-middle transparent transparent transparent;
+}
+.o-ring div:nth-child(1) {
+	animation-delay: -0.35s;
+}
+.o-ring div:nth-child(2) {
+	animation-delay: -0.2s;
+}
+.o-ring div:nth-child(3) {
+	animation-delay: -0.05s;
+}
+@keyframes lds-ring {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
 	}
 }

@@ -1424,6 +1424,7 @@ ul {
   -webkit-transition: all .3s;
   transition: all .3s;
   cursor: pointer;
+  outline: 0;
 }
 
 .button-primary:hover {
