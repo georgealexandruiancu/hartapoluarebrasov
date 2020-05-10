@@ -25,16 +25,31 @@ class SideLeft extends Component {
 					</div>
 
 					<div className="side-bar__content">
-						<div className="side-bar__item"
-							onClick={() => UIModal.openModalUser()}
-						>
-							<i class="fa fa-users"></i> Utilizator
+						<div className="side-bar__menu--header">
+							Hello, <span>Alex Iancu</span>
 						</div>
-						<div className="side-bar__item"
-							onClick={() => UIModal.openModalAdmin()}
-						>
-							<i class="fa fa-lock"></i> Administrator
-						</div>
+						<li className="side-bar__menu--item  active  js-menu-item" onClick={(e) => UI.makeActiveMenu(e)}>
+							Dashboard
+						</li>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+							View Data
+						</li>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+							Filter Data
+						</li>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+							Search Data
+						</li>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+							Your Device
+						</li>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+							Account Settings
+						</li>
+					</div>
+
+					<div className="side-bar__menu--footer">
+						<i className="fa fa-times-circle-o"></i> Logout
 					</div>
 				</div>
 			</>

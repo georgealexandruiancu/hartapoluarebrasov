@@ -2,7 +2,7 @@ require('dotenv').config();
 
 let appPath = process.env.DEV_PATH;
 
-/**  
+/**
 * ? ---------------------------------------
 * ? If you don't have the ssl certificate
 * ? Please disable the fs, key, cert
@@ -70,7 +70,7 @@ app.use(
 app.use('/users', appRouterUsers);
 app.use('/data', appRouterData);
 
-/** 
+/**
  * Methods
  */
 
@@ -100,5 +100,5 @@ getUserById = async (id) => {
  */
 
 const server = https.createServer({ key: key, cert: cert }, app);
-server.listen(3001, () => { console.log('SSL ACTIVE  - listening on 3001') });
-app.listen(3000, () => console.log("Unsecured connection active on PORT: 3000"));
+server.listen(3002, () => { console.log('SSL ACTIVE  - listening on 3002') });
+app.listen(3001, () => console.log("Unsecured connection active on PORT: 3001"));

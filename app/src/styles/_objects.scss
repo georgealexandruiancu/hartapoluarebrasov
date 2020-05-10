@@ -44,7 +44,8 @@
 		font-weight: 600;
 
 		img {
-			width: 125px;
+			width: 100%;
+			max-width: 125px;
 		}
 	}
 
@@ -87,8 +88,8 @@
 
 		&-toggle {
 			position: absolute;
-			top: $inner-gutter;
-			color: $color-global-positive;
+			top: $inner-gutter--half;
+			color: $color-global-dark;
 			font-size: 1.5em;
 			cursor: pointer;
 			z-index: map-get($z-indexs, above-all);
@@ -104,6 +105,77 @@
 		&__content {
 			width: $full;
 			position: relative;
+		}
+
+		&__menu--header {
+			font-size: 1.4em;
+			font-weight: 800;
+			border-bottom: $inner-gutter--quarter solid $color-global-middle;
+			padding-top: $inner-gutter--double;
+			padding-bottom: $inner-gutter--quarter;
+			margin-bottom: $inner-gutter--double;
+			color: $color-global-dark;
+
+			span {
+				color: $color-global-middle;
+			}
+		}
+
+		&__menu--footer {
+			position: absolute;
+			bottom: $inner-gutter;
+			left: $inner-gutter;
+			color: $color-flag-1;
+			font-size: 1.2em;
+			font-weight: 600;
+			transition: all .2s;
+			cursor: pointer;
+
+			&:hover {
+				color: $color-global-dark;
+				.fa {
+					color: $color-global-dark;
+				}
+			}
+
+			.fa {
+				color: $color-flag-1;
+				transition: all .2s;
+			}
+		}
+
+		&__menu--item {
+			list-style-type: none;
+			cursor: pointer;
+			text-align: left;
+			margin-left: $inner-gutter;
+			font-size: 1.2em;
+			font-weight: 600;
+			margin-bottom: $inner-gutter;
+			position: relative;
+			transition: all .2s;
+			color: $color-global-dark;
+
+			&:hover {
+				color: $color-global-middle;
+			}
+
+			&.active {
+				margin-left: $inner-gutter--double;
+				color: $color-global-middle;
+
+				&:before {
+					margin-left: $inner-gutter--half;
+					position: absolute;
+					left: -40px;
+					top: 50%;
+					transform: translateY(-50%);
+					content: "";
+					width: 25px;
+					height: $inner-gutter--quarter;
+					background-color: $color-global-middle;
+				}
+			}
 		}
 
 		&__item {
@@ -777,5 +849,51 @@ ul {
 	}
 	100% {
 		transform: rotate(360deg);
+	}
+}
+
+.bottom-charts {
+	width: calc(100vw - 200px);
+	position: absolute;
+	height: 250px;
+	bottom: $zero;
+	left: 200px;
+	background: url("../assets/grey-paper-texture.jpg");
+	background-repeat: repeat;
+	overflow-y: hidden;
+	overflow-x: auto;
+	white-space: nowrap;
+
+	.o-chart {
+		margin-top: $inner-gutter;
+	}
+
+	.chart-holder {
+		margin-left: $inner-gutter--half;
+		display: inline-block;
+		padding: $inner-gutter--half;
+		background-color: $color-global-dark;
+		color: white;
+		height: auto;
+		width: 350px;
+		margin-top: $inner-gutter;
+		padding-left: $inner-gutter;
+		position: relative;
+
+		&__title, &__footer {
+			display: inline-block;
+
+			&::first-letter {
+				color: $color-global-middle;
+			}
+
+			font-weight: 600;
+			letter-spacing: 1.1px;
+			border-bottom: 2px solid $color-global-middle;
+		}
+
+		&__footer {
+			border: none;
+		}
 	}
 }
