@@ -12,15 +12,20 @@ export const toggleSide = (element) => {
 	var side = element.target.parentElement.parentElement.parentElement;
 	var content = element.target.parentElement.parentElement.children[1];
 	var footer = document.querySelector(".side-bar__menu--footer");
+	var bottomCharts = document.querySelector(".bottom-charts");
 
 	if (side.offsetWidth === 200) {
 		side.style.width = "60px";
 		content.style.display = "none";
 		footer.style.display = "none";
+		bottomCharts.style.left = "60px";
+		bottomCharts.style.width = "calc(100vw - 60px)";
 		roateIconReverse(element.target, "AddClass");
 	}
 	else {
 		side.style.width = "200px";
+		bottomCharts.style.left = "200px";
+		bottomCharts.style.width = "calc(100vw - 200px)";
 		content.style.display = "initial";
 		footer.style.display = "initial";
 		roateIconReverse(element.target, "RemoveClass");

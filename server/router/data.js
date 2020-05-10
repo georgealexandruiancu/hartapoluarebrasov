@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fetch = require("node-fetch");
 
 var logger = require("../log/logger");
 
@@ -275,6 +276,57 @@ router.post("/post-data/:sensor", (req, res) => {
 			}
 		}
 	})
+});
+
+router.get("/opensource/:type/:limit?/:dateStart?/:dateEnd?", (req, res) => {
+
+	if (req.params.type == "openaq") {
+		let limit = req.params.limit ? req.params.limit : 10000;
+
+		let url = encodeURI(
+			"https://api.openaq.org/v1/measurements?country=RO&city=Braşov&date_from=2020-01-01&order_by=date&limit=" + limit
+		);
+
+		if (req.params.dateStart && req.params.dateEnd){
+			url = encodeURI(
+				"https://api.openaq.org/v1/measurements?country=RO&city=Braşov&date_from="+req.params.dateStart+"&date_to="+req.params.dateEnd+"&order_by=date&limit=" + limit
+			);
+		}
+
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				let object_no2 = [];
+				let object_o3 = [];
+				data.results.map((item, index) => {
+					if (item.parameter == "no2") {
+						object_no2.push({
+							date_reg: item.date.local,
+							value: item.value,
+							lat: item.coordinates.latitude,
+							lng: item.coordinates.longitude,
+							currency: item.unit
+						});
+					}
+					else if (item.parameter == "o3") {
+						object_o3.push({
+							date_reg: item.date.local,
+							value: item.value,
+							lat: item.coordinates.latitude,
+							lng: item.coordinates.longitude,
+							currency: item.unit,
+						});
+					}
+				})
+				let concatedObject = {
+					no2: object_no2,
+					o3: object_o3
+				}
+				res.send(concatedObject);
+			})
+			.catch(err => console.log(err))
+	}
+
 });
 
 module.exports = router

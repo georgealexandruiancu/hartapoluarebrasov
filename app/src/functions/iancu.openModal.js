@@ -1,23 +1,11 @@
-export const openModalAdmin = () => {
-	var modalAdmin = document.getElementsByClassName("js-open-modal-admin")[0];
+export const openModal = (element, data) => {
+	var modal = document.querySelector("[data-modal='"+data+"']");
 
-	modalAdmin.classList.add("modal-overlay--open");
+	modal.classList.add("modal-overlay--open");
 }
 
-export const closeModalAdmin = () => {
-	var modalAdmin = document.getElementsByClassName("js-open-modal-admin")[0];
+export const closeModal = (element, data) => {
+	var modal = document.querySelector("[data-modal='"+data+"']");
 
-	modalAdmin.classList.remove("modal-overlay--open");
-}
-
-export const openModalUser = () => {
-	var modalUser = document.getElementsByClassName("js-open-modal-user")[0];
-
-	modalUser.classList.add("modal-overlay--open");
-}
-
-export const closeModalUser = () => {
-	var modalUser = document.getElementsByClassName("js-open-modal-user")[0];
-
-	modalUser.classList.remove("modal-overlay--open");
+	modal.classList.remove("modal-overlay--open");
 }

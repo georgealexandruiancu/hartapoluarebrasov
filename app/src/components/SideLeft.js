@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import * as UI from '../functions/iancu.toggle.js';
 import * as UIModal from '../functions/iancu.openModal.js';
-import ModalAdmin from './ModalAdmin.js';
 
 class SideLeft extends Component {
 
@@ -28,22 +27,22 @@ class SideLeft extends Component {
 						<div className="side-bar__menu--header">
 							Hello, <span>Alex Iancu</span>
 						</div>
-						<li className="side-bar__menu--item  active  js-menu-item" onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  active  js-menu-item" onClick={(e) =>{ UI.makeActiveMenu(e); }}>
 							Dashboard
 						</li>
-						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => { UI.makeActiveMenu(e); UIModal.openModal(e, "ViewDataModal"); }}>
 							View Data
 						</li>
-						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => { UI.makeActiveMenu(e); UIModal.openModal(e, "FilterDataModal"); }}>
 							Filter Data
 						</li>
-						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => { UI.makeActiveMenu(e); UIModal.openModal(e, "SearchDataModal"); }}>
 							Search Data
 						</li>
-						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => { UI.makeActiveMenu(e); UIModal.openModal(e, "YourDeviceModal"); }}>
 							Your Device
 						</li>
-						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => UI.makeActiveMenu(e)}>
+						<li className="side-bar__menu--item  js-menu-item"  onClick={(e) => { UI.makeActiveMenu(e); UIModal.openModal(e, "AccountSettingsModal"); }}>
 							Account Settings
 						</li>
 					</div>

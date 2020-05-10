@@ -448,23 +448,33 @@ ul {
 
 .modal {
 	@include center(horizontal, absolute);
-	@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
+	@include border-radius-side($zero, $zero, $inner-gutter--half, $inner-gutter--half);
 	@include padding($zero, $zero, $inner-gutter--double, $zero);
 
-	box-shadow: 0px -2px 20px 0px rgba(255,255,255,.5);
 	top: $inner-gutter;
 	width: 90%;
-	max-width: 768px;
-	background: white;
+	max-width: 1200px;
+	background: url("../assets/grey-paper-texture.jpg");
+	background-repeat: repeat;
+
+	&__wrapper {
+		height: 80vh;
+		max-height: 768px;
+		overflow-y: auto;
+		box-sizing: border-box;
+		padding: $inner-gutter;
+	}
 
 	&__title {
-		@include border-radius-side($zero, $zero, $inner-gutter, $inner-gutter);
+		@include border-radius-side($zero, $zero, $inner-gutter--half, $inner-gutter--half);
 		@include text-align(center);
 		@include padding($inner-gutter, $inner-gutter, $inner-gutter, $inner-gutter);
 
 		background: $color-global-dark;
-		color: $color-global-light;
+		color: $color-global-positive;
 		font-size: 1.2em;
+		font-weight: 700;
+		letter-spacing: 2px;
 	}
 
 	&__close--btn {
@@ -478,26 +488,6 @@ ul {
 		}
 	}
 
-	&__form {
-		display: block;
-		@include margin($inner-gutter, $zero, $zero, $zero);
-		@include text-align(center);
-
-		&--input {
-			@include margin($inner-gutter--half, $zero, $zero, $zero);
-			@include center(horizontal, relative);
-
-			input {
-				@include padding($inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--quarter, $inner-gutter--half);
-				@include border-radius($inner-gutter--quarter);
-
-				border: 2px solid $color-global-dark;
-				width: 35%;
-				min-width: 250px;
-				outline-style:none;
-			}
-		}
-	}
 }
 
 .splashscreen {
@@ -855,7 +845,7 @@ ul {
 .bottom-charts {
 	width: calc(100vw - 200px);
 	position: absolute;
-	height: 250px;
+	height: 275px;
 	bottom: $zero;
 	left: 200px;
 	background: url("../assets/grey-paper-texture.jpg");
@@ -867,33 +857,42 @@ ul {
 	.o-chart {
 		margin-top: $inner-gutter;
 	}
+}
 
-	.chart-holder {
-		margin-left: $inner-gutter--half;
-		display: inline-block;
-		padding: $inner-gutter--half;
-		background-color: $color-global-dark;
-		color: white;
-		height: auto;
-		width: 350px;
+.chart-holder {
+	margin-left: $inner-gutter--half;
+	display: inline-block;
+	padding: $inner-gutter--half;
+	background-color: $color-global-dark;
+	color: white;
+	height: auto;
+	width: 350px;
+	margin-top: $inner-gutter;
+	padding-left: $inner-gutter;
+	position: relative;
+
+	&--block {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		margin: $zero;
 		margin-top: $inner-gutter;
-		padding-left: $inner-gutter;
-		position: relative;
+	}
 
-		&__title, &__footer {
-			display: inline-block;
+	&__title, &__footer {
+		display: inline-block;
 
-			&::first-letter {
-				color: $color-global-middle;
-			}
-
-			font-weight: 600;
-			letter-spacing: 1.1px;
-			border-bottom: 2px solid $color-global-middle;
+		&::first-letter {
+			color: $color-global-middle;
 		}
 
-		&__footer {
-			border: none;
-		}
+		font-weight: 600;
+		letter-spacing: 1.1px;
+		border-bottom: 2px solid $color-global-middle;
+	}
+
+	&__footer {
+		border: none;
+		font-size: .75em;
 	}
 }
