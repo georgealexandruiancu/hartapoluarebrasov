@@ -62,7 +62,7 @@ class UserConfirmation extends Component {
 								<div>
 									<i class="fa fa-check" aria-hidden="true"></i>
 								</div>
-								Your account has been verified! Please login
+									Your account has been verified! Please login
 								<div>
 									<button className="button-primary  button-primary--alt">LOGIN</button>
 								</div>

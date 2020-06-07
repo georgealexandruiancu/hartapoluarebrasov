@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 
+import axios from "axios";
+
 import * as UI from '../../functions/iancu.splashScreen.js';
 
 class UserLogin extends Component {
 
 	constructor() {
 		super();
-		this.state = { 
-		 
+		this.state = {
+			email: "",
+			password: ""
 		};
 
+		this.onChangeEmail = this.onChangeEmail.bind(this);
+		this.onChangePassword = this.onChangePassword.bind(this);
 	}
 
 	componentDidMount() {
@@ -20,6 +25,40 @@ class UserLogin extends Component {
 
 	componentWillUnmount() {
 		window.removeEventListener("resize", UI.ModifySizeCol);
+	}
+
+	onChangeEmail = (e) => {
+		this.setState({ email: e.target.value });
+	}
+
+	onChangePassword = (e) => {
+		this.setState({ password: e.target.value });
+	}
+
+	makeLogin() {
+
+		var instance = axios.create({
+			withCredentials: true
+		});
+
+		instance
+			.post("http://localhost:3001/users/login", {
+				email: this.state.email,
+				password: this.state.password
+			})
+			.then(function(response) {
+				console.log(response);
+				if (response.status === 200) {
+					console.log("ok");
+				} else if (response.status === 401) {
+					alert("Unable to login, please try again!");
+				}
+			})
+			.catch(function(error) {
+				if (error) {
+					alert("Unable to login, please try again!");
+				}
+			});
 	}
 
 	render() {
@@ -39,13 +78,13 @@ class UserLogin extends Component {
 
 							<div className="form-user__input-holder">
 								<div className="form-user__input">
-									<input type="email" autoComplete="off" placeholder="Enter your email" />
+									<input type="email" autoComplete="off" placeholder="Enter your email" onChange={this.onChangeEmail} value={this.state.email} />
 								</div>
 								<div className="form-user__input">
-									<input type="password" autoComplete="off" placeholder="Your password goes here" />
+									<input type="password" autoComplete="off" placeholder="Your password goes here" onChange={this.onChangePassword} value={this.state.password} />
 								</div>
 								<div className="form-user__input  form-user__input--button">
-									<button className="button-primary">LOGIN</button>
+									<button className="button-primary" onClick={() => this.makeLogin()}>LOGIN</button>
 								</div>
 							</div>
 						</div>

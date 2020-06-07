@@ -28,6 +28,13 @@ var client = new elasticsearch.Client({
 	host: `https://${process.env.AWS_USER}:${process.env.AWS_PASS}@8f9677360fc34e2eb943d737b2597c7b.us-east-1.aws.found.io:9243`
 });
 
+// cors
+var corsOptions = {
+	origin: "http://localhost:3000",
+	credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // routes
@@ -40,9 +47,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-
-// cors
-app.use(cors());
 
 app.use(
 	async function (req, res, next) {

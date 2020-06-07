@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router , Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router , Route, Switch, Redirect} from 'react-router-dom';
+
+import axios from "axios";
 
 // import MapContainer from './components/MapContainer';
 // import Header from './components/Header';
@@ -18,16 +20,56 @@ import './styles/style.min.css';
 
 class App extends Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			loggedIn: false
+		}
+	}
+
+	componentDidMount() {
+		var instance = axios.create({
+			withCredentials: true
+		});
+
+		instance.get("http://localhost:3001/users/who-am-i").then(response => {
+			if (response.data) {
+				if (response.data[0]._source) {
+					this.setState({
+						loggedIn: true,
+						user: response.data[0]._source
+					});
+				}
+				else {
+					this.setState({ loggedIn: false });
+				}
+			}
+		});
+	}
+
 	render() {
 		return (
 			<Router>
 				<div>
 					<Switch>
-						<Route exact path="/" component={HomepageNoLogin} />
-						<Route path="/login" component={UserLogin} />
-						<Route path="/register" component={UserRegister} />
-						<Route path="/confirm-register" component={UserConfirmation} />
-						<Route path="/dashboard" component={UserDashboard} />
+						{
+							this.state.loggedIn ? (
+								<>
+									<Redirect to="/" />
+									<Route exact path="/" component={UserDashboard} />
+									<Route path="/dashboard" component={UserDashboard} />
+								</>
+							) : (
+								<>
+									<Route exact path="/" component={HomepageNoLogin} />
+									<Route path="/login" component={UserLogin} />
+									<Route path="/register" component={UserRegister} />
+									<Route path="/confirm-register" component={UserConfirmation} />
+									<Route component={HomepageNoLogin} />
+								</>
+							)
+						}
+
 					</Switch>
 				</div>
 			</Router>

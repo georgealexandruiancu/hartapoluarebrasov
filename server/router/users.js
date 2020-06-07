@@ -24,7 +24,12 @@ function makeid(length) {
 }
 
 router.get("/who-am-i", (req, res) => {
-	res.json(req.user);
+	if (req.user) {
+		res.json(req.user);
+	}
+	else {
+		res.json({user: false});
+	}
 })
 
 router.get("/logout", (req, res) => {
@@ -141,7 +146,7 @@ router.post("/add-user", async (req, res) => {
 				})
 
 			}
-			
+
 		}
 	});
 });
@@ -149,7 +154,7 @@ router.post("/add-user", async (req, res) => {
 registerUserDevice = async (hash) => {
 	return new Promise((resolve, reject) => {
 		let index = "airquality_" + hash;
-		
+
 		client.index({
 			index,
 			body: {}
@@ -176,7 +181,7 @@ registerUserDevice = async (hash) => {
 								}
 							},
 							humidity: { "type": "long" },
-							gpslocation: { 
+							gpslocation: {
 								properties: {
 									location: {
 										"type": "geo_point"
