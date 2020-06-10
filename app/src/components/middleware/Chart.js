@@ -10,34 +10,7 @@ class ChartObject extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	fetch(
-	// 		"http://localhost:3001/data/opensource/openaq/100/"+dateStart+"/"+dateEnd
-	// 	)
-	// 		.then((response) => response.json())
-	// 		.then((data) => {
-	// 			let no2PositionsArray = [];
-	// 			let sum = 0;
-	// 			data.no2.map((item, index) => {
-	// 				no2PositionsArray.push({
-	// 					lat: item.lat,
-	// 					lng: item.lng,
-	// 					weight: item.value
-	// 				});
-	// 				sum += item.value;
-	// 			})
-
-	// 			this.setState({
-	// 				heatMapTest: {
-	// 					positions: no2PositionsArray
-	// 				},
-	// 				averageNo2: (sum / data.no2.length).toFixed(3)
-	// 			})
-	// 		});
-	// }
-
 	render() {
-		console.log(this.props.data);
 		let data = [
 			{
 				xValueFormatString: "MMM YYYY",
@@ -63,7 +36,7 @@ class ChartObject extends Component {
 					{this.props.title}
 				</div>
 				<div style={{height: '150px'}}>
-					<Chart data={data} axes={axes} tooltip dark anitamtionEnabled="true" zoomEnabled="true"/>
+					<Chart data={data} axes={axes} tooltip dark animationEnabled="true" zoomEnabled="true"/>
 				</div>
 				<div className="chart-holder__footer">
 					Average between {this.props.dateStart} - {this.props.dateEnd} : {this.props.average} <br/>

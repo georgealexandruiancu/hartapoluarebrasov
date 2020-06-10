@@ -153,7 +153,7 @@ router.post("/add-user", async (req, res) => {
 
 registerUserDevice = async (hash) => {
 	return new Promise((resolve, reject) => {
-		let index = "airquality_" + hash;
+		let index = "air_" + hash;
 
 		client.index({
 			index,
@@ -274,7 +274,7 @@ router.post("/add-data-user/:hash", (req, res) => {
 	}
 
 	let hash = req.params.hash;
-	let index = "airquality_" + hash;
+	let index = "air_" + hash;
 	let dateNow = Date.now();
 	let dateEntry = Date(dateNow);
 
@@ -345,7 +345,7 @@ router.get("/get-user-data/:hash/:limit?", (req, res) => {
 	let hits;
 	let hash = req.params.hash;
 	let limitReq = req.params.limit;
-	var index = 'airquality_' + hash,
+	var index = 'air_' + hash,
 		limit = { "from": 0, "size": 1000 };
 
 	if (!hash) {

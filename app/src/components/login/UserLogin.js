@@ -47,9 +47,8 @@ class UserLogin extends Component {
 				password: this.state.password
 			})
 			.then(function(response) {
-				console.log(response);
 				if (response.status === 200) {
-					console.log("ok");
+
 				} else if (response.status === 401) {
 					alert("Unable to login, please try again!");
 				}

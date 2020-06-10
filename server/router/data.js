@@ -11,16 +11,10 @@ var client = new elasticsearch.Client({
 
 
 router.get("/get-all-data/:sensor?", (req, res) => {
-	if (!req.user) {
-		res.status(401).json({
-			message: "You are not logged in !"
-		});
-	}
-
 	let data;
 	let hits;
-	var index = 'airquality_*',
-		limit = {"from": 0, "size": 1000},
+	var index = 'air_*',
+		limit = {"from": 0, "size": 10000},
 		search = "AIRQUALITY";
 
 	let sensor = req.params.sensor;
@@ -52,41 +46,57 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 			"query": {
 				"match_all": {}
 			},
+			"sort": [
+				{
+					"timestamp": {
+						"order": "desc"
+					}
+				}
+			]
 		}
 	}, function (err, resQuery, status) {
 		if(err) {
 			console.log(err);
-
-			if (req.user) {
-				res.status(404).json({
-					error: err
-				})
-			}
+			res.status(404).json({
+				error: err
+			})
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
-			hits = data.hits.hits;
+			if (sensor) {
+				hits = data.hits.hits;
+				let arrayDataWithHours = [];
+				let minValue = "";
+				data.hits.hits.map((item, index) => {
+					if (index == 0) {
+					minValue = item._source.timestamp.substring(0, 10);
+					}
 
-			if (limitReq) {
-				console.log(hits);
-			} else {
-				console.log(`Found it: ${hits.length}, from all search`);
-			}
-			if (req.user) {
+					let maxValue = item._source.timestamp.substring(0, 10);
+
+					if (maxValue < minValue) {
+					arrayDataWithHours.push(item._source);
+					minValue = maxValue;
+					}
+				});
+				arrayDataWithHours = arrayDataWithHours.reverse();
+
 				res.status(200).json({
 					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-					data: hits
+					data: arrayDataWithHours,
 				});
 			}
+			else {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: data.hits.hits
+				});
+			}
+
 		}
 	});
 });
 
 router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
-	if (!req.user) {
-		res.status(401).json({
-			message: "You are not logged in !"
-		});
-	}
 
 	let data;
 	let hits;
@@ -144,32 +154,23 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	}, function (err, resQuery, status) {
 		if(err) {
 			console.log(err);
-			if (req.user) {
 				res.status(404).json({
 					error: err
 				})
-			}
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
 
 			console.log(`Found it: ${hits.length}, from radius: ${radius} on point ${point.lat} & ${point.lng}`);
-			if (req.user) {
-				res.status(200).json({
-					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-					data: hits
-				});
-			}
+			res.status(200).json({
+				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+				data: hits
+			});
 		}
 	});
 });
 
 router.get("/get-all/:sensor?/:limit?", (req, res) => {
-	if (!req.user) {
-		res.status(401).json({
-			message: "You are not logged in !"
-		});
-	}
 
 	let data;
 	let hits;
@@ -210,36 +211,43 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		if(err) {
 			console.log(err);
 
-			if (req.user) {
-				res.status(404).json({
-					error: err
-				})
-			}
+			res.status(404).json({
+				error: err
+			})
 		} else {
 			data = JSON.parse(JSON.stringify(resQuery));
 			hits = data.hits.hits;
+			let arrayDataWithHours = [];
+			let minValue = "";
+			data.hits.hits.map((item, index) => {
 
-			if (limitReq) {
-				console.log(hits);
-			} else {
-				console.log(`Found it: ${hits.length}, from all search`);
-			}
-			if (req.user) {
-				res.status(200).json({
-					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-					data: hits
-				});
-			}
+				if(index == 0) {
+					minValue = item._source.timestamp.substring(0, 10);
+				}
+
+				console.log(minValue);
+
+				let maxValue = item._source.timestamp.substring(0, 10);
+
+				console.log(maxValue);
+
+				if(maxValue < minValue) {
+					console.log(item._source);
+					arrayDataWithHours.push(item._source);
+					minValue = maxValue;
+				}
+			});
+			arrayDataWithHours = arrayDataWithHours.reverse();
+
+			res.status(200).json({
+				message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+				data: arrayDataWithHours
+			});
 		}
 	});
 });
 // test cors() middleware
 router.post("/post-data/:sensor", (req, res) => {
-	if (!req.user) {
-		res.status(401).json({
-			message: "You are not logged in !"
-		});
-	}
 
 	let sensor = req.params.sensor;
 	let index = "esp8266_dht11_" + sensor;
@@ -261,19 +269,15 @@ router.post("/post-data/:sensor", (req, res) => {
 		if(err) {
 			console.log(err);
 
-			if (req.user) {
-				res.status(404).json({
-					error: err
-				})
-			}
+			res.status(404).json({
+				error: err
+			})
 		}
 		else {
-			if (req.user) {
-				res.send({
-					message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
-					response: resp
-				})
-			}
+			res.send({
+				message: `SUCCESS  -  POST TO ${index} CALL SUCCEEDED`,
+				response: resp
+			})
 		}
 	})
 });

@@ -98,7 +98,6 @@ class Carousel extends Component {
 		this.setState({
 			initialClientX: event.nativeEvent.touches[0].clientX
 		});
-		console.log(this.state);
 	}
 
 	handleTouchMove(event) {
@@ -110,9 +109,9 @@ class Carousel extends Component {
 	handleTouchEnd() {
 		if ((this.state.finalClientX > this.state.initialClientX)
 			&& (this.state.finalClientY - this.state.initialClientY < 10)) {
-				console.log('swipe left')
+
 		}
-	
+
 		this.setState({
 			initialClientX: 0,
 			finalClientX: 0
@@ -186,7 +185,7 @@ class Carousel extends Component {
 				key={index}
 				index={index}
 				activeIndex={this.state.activeIndex}
-				isActive={this.state.activeIndex==index} 
+				isActive={this.state.activeIndex==index}
 				onClick={e => this.goToSlide(index)}
 				/>
 			)}

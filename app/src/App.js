@@ -33,16 +33,21 @@ class App extends Component {
 		});
 
 		instance.get("http://localhost:3001/users/who-am-i").then(response => {
-			if (response.data) {
-				if (response.data[0]._source) {
-					this.setState({
-						loggedIn: true,
-						user: response.data[0]._source
-					});
+			if (!response.data.user) {
+				if (response.data) {
+					if(Array.isArray(response.data)) {
+						this.setState({
+							loggedIn: true,
+							user: response.data[0].user,
+						});
+					}
 				}
 				else {
 					this.setState({ loggedIn: false });
 				}
+			}
+			else {
+				this.setState({ loggedIn: false });
 			}
 		});
 	}

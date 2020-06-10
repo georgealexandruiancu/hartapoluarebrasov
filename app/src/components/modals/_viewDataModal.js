@@ -6,7 +6,6 @@ import ChartObject from "../middleware/Chart";
 class ViewDataModal extends Component {
 
 	render() {
-		console.log(this.props.dataNo2);
 		return (
 			<div className="modal-overlay" data-modal="ViewDataModal" >
 				<div className="modal  modal--admin">
@@ -22,6 +21,9 @@ class ViewDataModal extends Component {
 							}
 							{
 								this.props.dataO3 ? <ChartObject dateStart={this.props.dateStart} dateEnd={this.props.dateEnd} data={this.props.dataO3} title={this.props.labelO3} unit="µg/m³" limitWidth={this.props.limitWidth} average={this.props.averageO3}/> : ""
+							}
+							{
+								this.props.dataMQ135 ? <ChartObject dateStart={this.props.dateStartMQ} dateEnd={this.props.dateEndMQ} data={this.props.dataMQ135} title={this.props.labelMQ135} unit="Co2" limitWidth={this.props.limitWidth} average={this.props.averageMQ135} /> : ""
 							}
 						</div>
 					</div>
