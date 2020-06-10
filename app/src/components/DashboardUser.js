@@ -5,6 +5,7 @@ import Header from "./Header";
 import SideLeft from "./SideLeft";
 import BottomCharts from "./BottomCharts";
 import ViewDataModal from "./modals/_viewDataModal";
+import YourDeviceModal from "./modals/_yourDeviceModal";
 
 class DashboardUser extends Component {
 
@@ -199,6 +200,11 @@ class DashboardUser extends Component {
 				}
 			</div>
 			{
+				<YourDeviceModal
+					user={this.props.user}
+				/>
+			}
+			{
 				this.state.no2Data && this.state.o3Data ? <ViewDataModal
 					dateStart={this.state.dateStart}
 					dateEnd={this.state.dateEnd}
@@ -214,6 +220,20 @@ class DashboardUser extends Component {
 					dataMQ135={this.state.mq135Data}
 					labelMQ135="Sensor: MQ135"
 					averageMQ135={this.state.averageMQ135}
+					air_temperature={this.state.air.temperature}
+					air_humidity={this.state.air.humidity}
+					air_dustDensity={this.state.air.dustDensity}
+					air_MQ135={this.state.air.MQ135}
+					air_averageTemperature={this.state.air.averageTemperature}
+					air_averageHumidity={this.state.air.averageHumidity}
+					air_averageDustDensity={this.state.air.averageDustDensity}
+					air_averageMQ135={this.state.air.averageMQ135}
+					airDateStart={this.state.air.airDateStart}
+					airDateEnd={this.state.air.airDateStart}
+					air_label_temperature="Temperature"
+					air_label_humidity="Humidity"
+					air_label_dustdensity="Dust Density"
+					air_label_MQ135="MQ135"
 				/> : ""
 			}
 			{
@@ -232,6 +252,20 @@ class DashboardUser extends Component {
 					dataMQ135={this.state.mq135Data}
 					labelMQ135="Sensor: MQ135"
 					averageMQ135={this.state.averageMQ135}
+					air_temperature={this.state.air.temperature}
+					air_humidity={this.state.air.humidity}
+					air_dustDensity={this.state.air.dustDensity}
+					air_MQ135={this.state.air.MQ135}
+					air_averageTemperature={this.state.air.averageTemperature}
+					air_averageHumidity={this.state.air.averageHumidity}
+					air_averageDustDensity={this.state.air.averageDustDensity}
+					air_averageMQ135={this.state.air.averageMQ135}
+					airDateStart={this.state.air.airDateStart}
+					airDateEnd={this.state.air.airDateStart}
+					air_label_temperature="Temperature"
+					air_label_humidity="Humidity"
+					air_label_dustdensity="Dust Density"
+					air_label_MQ135="MQ135"
 				/> : ""
 			}
 		</div>

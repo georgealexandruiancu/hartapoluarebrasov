@@ -62,7 +62,7 @@ class App extends Component {
 								<>
 									<Redirect to="/" />
 									<Route exact path="/" component={UserDashboard} />
-									<Route path="/dashboard" component={UserDashboard} />
+									<Route path="/dashboard" component={UserDashboard} user={this.state.user}/>
 								</>
 							) : (
 								<>

@@ -36,7 +36,7 @@ class ChartObject extends Component {
 					{this.props.title}
 				</div>
 				<div style={{height: '150px'}}>
-					<Chart data={data} axes={axes} tooltip dark animationEnabled="true" zoomEnabled="true"/>
+					<Chart zoomEnabled={true} data={data} axes={axes} tooltip dark animationEnabled="true" zoomEnabled="true"/>
 				</div>
 				<div className="chart-holder__footer">
 					Average between {this.props.dateStart} - {this.props.dateEnd} : {this.props.average} <br/>
