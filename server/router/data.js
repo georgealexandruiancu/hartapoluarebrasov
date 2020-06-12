@@ -10,6 +10,30 @@ var client = new elasticsearch.Client({
 });
 
 
+function filterData (data) {
+	let filteredData = data.hits.hits.filter((item) => {
+
+	if(Object.keys(item._source).length !== 0) {
+
+			if (
+				item._source.hasOwnProperty("MQ135") &&
+				item._source.hasOwnProperty("dustDensity") &&
+				item._source.hasOwnProperty("humidity") &&
+				item._source.hasOwnProperty("lat") &&
+				item._source.hasOwnProperty("lng") &&
+				item._source.hasOwnProperty("name") &&
+				item._source.hasOwnProperty("temperature") &&
+				item._source.hasOwnProperty("timestamp")
+			) {
+				return item;
+			}
+		}
+	});
+
+	return filteredData;
+}
+
+
 router.get("/get-all-data/:sensor?", (req, res) => {
 	let data;
 	let hits;
@@ -32,9 +56,11 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 		}
 	}
 	else {
+		limit = {
+			"from": 0, "size": 100,
+		}
 		search = "ALL FIELDS";
 	}
-	console.log(req.originalUrl);
 
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "GET");
@@ -56,7 +82,6 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 		}
 	}, function (err, resQuery, status) {
 		if(err) {
-			console.log(err);
 			res.status(404).json({
 				error: err
 			})
@@ -86,9 +111,72 @@ router.get("/get-all-data/:sensor?", (req, res) => {
 				});
 			}
 			else {
+				let filteredData = filterData(data);
 				res.status(200).json({
 					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
-					data: data.hits.hits
+					data: filteredData
+				});
+			}
+
+		}
+	});
+});
+
+router.get("/get-my-data/:sensor?", (req, res) => {
+	let data;
+	let hits;
+	var limit = {"from": 0, "size": 10000},
+		search = "AIRQUALITY";
+
+	let sensor = req.params.sensor;
+
+	if (sensor) {
+		index = "air_" + sensor;
+		search = sensor.toUpperCase();
+	}
+	else {
+		res.status(404).json({
+			error: "NOT FOUND",
+		});
+	}
+
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	logger.writeLog(ip, req.originalUrl, req.user ? req.user[0]._id : "NOLOGGEDIN", "GET");
+
+	client.search({
+		index: index,
+		body: {
+			...limit,
+			"query": {
+				"match_all": {}
+			},
+			"sort": [
+				{
+					"timestamp": {
+						"order": "desc"
+					}
+				}
+			]
+		}
+	}, function (err, resQuery, status) {
+		if(err) {
+			res.status(404).json({
+				error: err
+			})
+		} else {
+			data = JSON.parse(JSON.stringify(resQuery));
+			// Filter data first
+			// Object.keys(obj).length === 0 && obj.constructor === Object;
+			let filteredData = filterData(data);
+			if (sensor) {
+				res.status(200).json({
+					message: `SUCCESS  -  GET ALL DATA FROM ${search}`,
+					data: filteredData,
+				});
+			}
+			else {
+				res.status(404).json({
+					error: "NOT FOUND",
 				});
 			}
 
@@ -153,7 +241,6 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 		}
 	}, function (err, resQuery, status) {
 		if(err) {
-			console.log(err);
 				res.status(404).json({
 					error: err
 				})
@@ -209,7 +296,7 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 		}
 	}, function (err, resQuery, status) {
 		if(err) {
-			console.log(err);
+
 
 			res.status(404).json({
 				error: err
@@ -225,14 +312,11 @@ router.get("/get-all/:sensor?/:limit?", (req, res) => {
 					minValue = item._source.timestamp.substring(0, 10);
 				}
 
-				console.log(minValue);
 
 				let maxValue = item._source.timestamp.substring(0, 10);
 
-				console.log(maxValue);
 
 				if(maxValue < minValue) {
-					console.log(item._source);
 					arrayDataWithHours.push(item._source);
 					minValue = maxValue;
 				}

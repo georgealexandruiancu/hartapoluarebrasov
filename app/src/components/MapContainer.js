@@ -25,6 +25,8 @@ class MapContainer extends Component {
 			options: {
 				radius: 30,
 				opacity: 0.6,
+				maxIntensity: 300,
+				dissipating: true
 			}
 		}
 
@@ -37,6 +39,7 @@ class MapContainer extends Component {
 				heatmapLibrary={true}
 				heatmap={heatMapData}
 				options={mapOptions}
+				maxIntensity={1000}
 			>
 				{
 					heatMapData.positions.map((item, index) => {
@@ -45,8 +48,8 @@ class MapContainer extends Component {
 								key={index}
 								lat={item.lat}
 								lng={item.lng}
-								name="My Marker"
-								color="blue"
+								name="Test"
+								color="transparent"
 								visible={true}
 							/>
 						)

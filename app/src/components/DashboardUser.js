@@ -14,7 +14,8 @@ class DashboardUser extends Component {
 		this.state = {
 			heatMapTest: "",
 			dateStart: "",
-			dateEnd: ""
+			dateEnd: "",
+			errorOnAir: false,
 		}
 
 	}
@@ -46,6 +47,16 @@ class DashboardUser extends Component {
 			dateStart,
 			dateEnd
 		}
+	}
+
+	_removeDuplicatesPositions = (things) => {
+		things = things.filter((thing, index, self) =>
+			index === self.findIndex((t) => (
+				t.lat === thing.lat && t.lng === thing.lng
+			))
+		)
+
+		return things
 	}
 
 	componentDidMount() {
@@ -116,12 +127,18 @@ class DashboardUser extends Component {
 				});
 
 
-				this.setState({
-					mq135Data,
-					dateStartMQ: data.data[0].timestamp.substring(0, 10),
-					dateEndMQ: data.data[data.data.length - 1].timestamp.substring(0, 10),
-					averageMQ135: sum135 / data.data.length
-				})
+				try {
+					this.setState({
+						mq135Data,
+						dateStartMQ: data.data[0].timestamp.substring(0, 10),
+						dateEndMQ: data.data[data.data.length - 1].timestamp.substring(0, 10),
+						averageMQ135: sum135 / data.data.length,
+					});
+				}
+				catch(e) {
+					console.log(e);
+					return;
+				}
 			});
 
 		fetch(
@@ -129,6 +146,7 @@ class DashboardUser extends Component {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				let positions = [];
 				let airTemperature = [];
 				let airHumidity = [];
 				let airDustDensity = [];
@@ -137,8 +155,22 @@ class DashboardUser extends Component {
 
 				let sum135 = 0;
 				data.data.map((item, index) => {
-					airDateStart = data.data[0]._source.timestamp.substring(0, 10);
-					airDateStart = data.data[data.data.length - 1]._source.timestamp.substring(0, 10);
+
+					try {
+						airDateStart = data.data[0]._source.timestamp.substring(0, 10);
+						airDateEnd = data.data[data.data.length - 1]._source.timestamp.substring(0, 10);
+					}
+					catch (e) {
+						console.log(e);
+						this.setState({errorOnAir: true});
+						return;
+					}
+
+					positions.push({
+						lat: item._source.lng,
+						lng: item._source.lat,
+						weight: 10,
+					});
 
 					airTemperature.push({
 						x: new Date(item._source.timestamp),
@@ -169,6 +201,8 @@ class DashboardUser extends Component {
 					averageMQ135 += item._source.MQ135;
 				});
 
+				positions = this._removeDuplicatesPositions(positions);
+
 				this.setState({
 					air: {
 						temperature: airTemperature,
@@ -180,8 +214,12 @@ class DashboardUser extends Component {
 						averageDustDensity: averageDustDensity / data.data.length,
 						averageMQ135: averageMQ135 / data.data.length,
 						airDateStart,
-						airDateEnd
+						airDateEnd,
+						positions
 					},
+					heatMapTest: {
+						positions: positions.concat(this.state.heatMapTest.positions)
+					}
 				});
 			});
 	}
@@ -205,7 +243,7 @@ class DashboardUser extends Component {
 				/>
 			}
 			{
-				this.state.no2Data && this.state.o3Data ? <ViewDataModal
+				this.state.no2Data && this.state.o3Data && this.state.air && !this.state.errorOnAir ? <ViewDataModal
 					dateStart={this.state.dateStart}
 					dateEnd={this.state.dateEnd}
 					dataNo2={this.state.no2Data}
@@ -237,7 +275,7 @@ class DashboardUser extends Component {
 				/> : ""
 			}
 			{
-				this.state.no2Data && this.state.o3Data ? <BottomCharts
+				this.state.no2Data && this.state.o3Data && this.state.air && !this.state.errorOnAir ? <BottomCharts
 					dateStart={this.state.dateStart}
 					dateEnd={this.state.dateEnd}
 					dataNo2={this.state.no2Data}
