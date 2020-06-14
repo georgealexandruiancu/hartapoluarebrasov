@@ -41,6 +41,11 @@ class ViewDataModal extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
+				// this.setState({
+				// 	user: {
+				// 		data
+				// 	}
+				// })
 			});
 	}
 
@@ -66,6 +71,10 @@ class ViewDataModal extends Component {
 							<h4>
 								Device Hash: {this.state.user.deviceId}
 							</h4>
+							<h4> Your device query: </h4>
+							<pre>
+								{"http://localhost:3001/data/get-my-data/" + this.state.user.deviceId}
+							</pre>
 						</div>
 					</div>
 				</div>

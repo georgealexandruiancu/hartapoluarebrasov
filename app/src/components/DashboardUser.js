@@ -16,6 +16,7 @@ class DashboardUser extends Component {
 			dateStart: "",
 			dateEnd: "",
 			errorOnAir: false,
+			toggleMarkers: false
 		}
 
 	}
@@ -54,9 +55,19 @@ class DashboardUser extends Component {
 			index === self.findIndex((t) => (
 				t.lat === thing.lat && t.lng === thing.lng
 			))
-		)
+		);
+
+		things = things.filter(function (thing) {
+			return thing !== thing;
+		});
 
 		return things
+	}
+
+	_onToggleMarkers = () => {
+		this.setState({
+			toggleMarkers: !this.state.toggleMarkers
+		})
 	}
 
 	componentDidMount() {
@@ -101,9 +112,7 @@ class DashboardUser extends Component {
 				})
 
 				this.setState({
-					heatMapTest: {
-						positions: no2PositionsArray
-					},
+					positionsArray: no2PositionsArray,
 					averageNo2: (sum / data.no2.length).toFixed(3),
 					averageO3: (sumO3 / data.o3.length).toFixed(3),
 					no2Data,
@@ -169,7 +178,7 @@ class DashboardUser extends Component {
 					positions.push({
 						lat: item._source.lng,
 						lng: item._source.lat,
-						weight: 10,
+						weight: item._source.temperature,
 					});
 
 					airTemperature.push({
@@ -201,8 +210,6 @@ class DashboardUser extends Component {
 					averageMQ135 += item._source.MQ135;
 				});
 
-				positions = this._removeDuplicatesPositions(positions);
-
 				this.setState({
 					air: {
 						temperature: airTemperature,
@@ -218,8 +225,13 @@ class DashboardUser extends Component {
 						positions
 					},
 					heatMapTest: {
-						positions: positions.concat(this.state.heatMapTest.positions)
+						positions: [
+							...positions,
+							...this.state.positionsArray
+						]
 					}
+				}, () => {
+					console.log(this.state);
 				});
 			});
 	}
@@ -232,9 +244,12 @@ class DashboardUser extends Component {
 			<div className="side-container  side-container--left">
 				<SideLeft />
 			</div>
+			<div className="buttons-control-map  u-pos-fixed  u-pos--top-gutter  u-pos--right-gutter  u-z-index--above-max">
+				<button onClick={() => this._onToggleMarkers() }>toggle maps markers</button>
+			</div>
 			<div className="map-container  u-pos-fixed">
 				{
-					this.state.heatMapTest !== "" ? <MapContainer heatMapData={this.state.heatMapTest} /> : ""
+					this.state.heatMapTest !== "" ? <MapContainer heatMapData={this.state.heatMapTest} toggleMarkers={this.state.toggleMarkers} /> : ""
 				}
 			</div>
 			{
