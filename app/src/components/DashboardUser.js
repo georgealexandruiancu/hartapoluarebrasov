@@ -61,7 +61,7 @@ class DashboardUser extends Component {
 			return thing !== thing;
 		});
 
-		return things
+		return things;
 	}
 
 	_onToggleMarkers = () => {
