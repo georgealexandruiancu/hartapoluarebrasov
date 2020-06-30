@@ -188,7 +188,7 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 
 	let data;
 	let hits;
-	var index = 'airquality_*',
+	var index = 'air_*',
 		limit = {"from": 0, "size": 1000};
 
 	let radius = req.params.radius;
@@ -201,7 +201,7 @@ router.get("/get-data-by-radius/:radius/:lat/:lng/:hashUser?", (req, res) => {
 	let userHash = req.params.hashUser;
 
 	if(userHash) {
-		index = "airquality_" + userHash;
+		index = "air_" + userHash;
 	}
 
 	let search = `AIRQUALITY BY RADIUS: ${radius} ON POINT ${point.lat} & ${point.lng}`;
